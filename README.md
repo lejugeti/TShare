@@ -20,6 +20,8 @@ Lien : https://nodejs.org/en/
 
 Après l'avoir installé il va vous falloir utiliser la console node.js "Node.js command prompt", vous mettre dans le dossier du site "./TShare/site" et effectuer quelques commandes. Pour installer des trucs avec node on utilise "npm". Du coup on va déjà installer vue-cli qui nous passe pas mal de fonctionnalités `npm install -g vue-cli --save`. 
 
+Comme on va utiliser une bdd de type SQL on va avoir besoin d'un package mysql `npm install -g mysql --save`.
+
 Ensuite on va installer axios pour envoyer des données à notre API et pour en recevoir `npm install -g axios --save`. 
 
 Puis on installe body-parser qui va normalement nous faciliter la tâche pour envoyer des informations à notre bdd `npm install -g body-parser --save`.
