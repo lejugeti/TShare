@@ -1,4 +1,4 @@
-CREATE DATABASE TShare;
+CREATE DATABASE tshare;
 
 CREATE TABLE Utilisateur 
 (
