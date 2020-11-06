@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import HelloWorld from "@/components/HelloWorld";
+import AffVetement from "@/components/AffichageVetement";
 
 Vue.use(Router);
 
@@ -11,8 +11,8 @@ export default new Router({
       path: "/",
     },
     {
-      path: "/navbar",
-      component: HelloWorld,
+      path: "/affVetement/:id",
+      component: AffVetement,
     },
     {
       path: "*",
