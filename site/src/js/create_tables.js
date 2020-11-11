@@ -126,5 +126,8 @@ con.connect(function(err){
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Location created");
+        console.log("Now ending connexion");
+        con.end();
     });
 });
+
