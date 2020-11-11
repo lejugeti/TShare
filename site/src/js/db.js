@@ -1,14 +1,14 @@
 // module de connection à la bdd
 
 const mysql = require('mysql');
-const dbConfig = require('../../config/db_config.js');
+const dbConfig = require('../../config/db.config.js');
 
 const co = mysql.createConnection({
-    host: dbConfig.host,
-    port: dbConfig.port,
-    user: dbConfig.user,
-    password: dbConfig.password,
-    database: dbConfig.database
+    host: dbConfig.HOST,
+    port: dbConfig.PORT,
+    user: dbConfig.USER,
+    password: dbConfig.PASSWORD,
+    database: dbConfig.DB
 });
 
 co.connect(function(err){
@@ -16,4 +16,4 @@ co.connect(function(err){
     console.log("connexion réussie");
 });
 
-module.exports();
+module.exports = co;
