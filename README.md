@@ -1,6 +1,6 @@
 # TShare
 
-Salut les gars dans ce ReadMe je vous fais un guide d'installation pour tout ce dont on aura besoin normalement pour le site web.
+Salut les gars dans ce README je vous fais un guide d'installation pour tout ce dont on aura besoin normalement pour le site web.
 
 ## I - La doc utile
 
@@ -9,6 +9,7 @@ Je vous mets au tout début du ReadMe toute la doc utile à aller mater, c'est c
 * la doc **vue.js** de base : https://vuejs.org/v2/guide/ ;
 * **vue router** pour les chemins de l'application : https://router.vuejs.org/guide/#html ;
 * des cours vidéos sur **vue router** ça prend 1h à mater on en aura sûrement besoin : https://vueschool.io/courses/vue-router-for-everyone?friend=vuejs
+* une page web sur comment créer une API avec Express, Node et mysql : https://bezkoder.com/node-js-rest-api-express-mysql/
 
 Et sinon je vous apprends rien vous savez taper sur google des erreurs et autres.
 
@@ -44,11 +45,45 @@ Comme vous avez pu le remarque c'est un bordel ce truc haha. Donc en fait dans l
 * "./site/src/components" où on va stocker tous nos composants vue.js
 * "./site/src/assets" où on stocke toutes nos images et autres clowneries
 * "./site/src/router" où on a tous les chemins de renvoi de l'application
+* "./site/src/js/api" où on va mettre tous les fichiers nous permettant d'interragir vraiment avec la BDD depuis le site
 
 On va de plus créer un dossier API qui va répertorier ben notre API yes.
 
-## V - Problèmes à résoudre du site
+## V - API 
+
+On crée une API pour pouvoir envoyer et recevoir des données à notre BDD facilement. On en a surtout besoin car c'est aussi le seul moyen qu'on a semblerait-il pour envoyer les données d'un form à la BDD. On va s'aider d'une page web sympa : https://bezkoder.com/node-js-rest-api-express-mysql/
+
+On va du coup utiliser **Express**, un framework de node.js qui permet de gérer plutôt facilement notre API. Je vais expliquer comment ça marche dans la suite de la section.
+
+Notre API va être constituée de trois types de fichiers :
+* Des **models**, ce sont des fichiers qui définissent le modèle d'un objet JS contenant des champs correspondant à notre table. En gros on définit une classe qui possède des informations similaires à une table de notre BDD (ex : idUtilisateur: 1, nom: "antoine"). A ce modèle on va ajouter des méthodes qui sont basiquement les requêtes que l'on va envoyer à la BDD (ex : Utilisateur.getById()).
+* Des **routes**, ce sont des fichiers permettant d'indiquer à l'application quelle requête exécuter en fonction de l'URL reçu
+* Des **controllers**, ce sont des fichiers de contrôle des requêtes. On définit dedans des fonctions qui sont appelées via les routes. Ces fonctions servent à contrôler quelle requête est envoyée à la BDD en fonction de l'URL. Elles gèrent les différentes erreurs renvoyées par la BDD et autres, et renvoient les résultats obtenus de la BDD.
+
+En résumé quand on envoie une requête l'application regarde l'URL, voit quelle route on doit utiliser. Là le controller va utiliser les fonctions du model pour effectuer une requête, récupère les résultats, gère les erreurs, et renvoie le résultat au navigateur.
+
+Donc pour chaque table il nous faut créer un fichier model, un controller associé, et un fichier routes associé. Et quand ça c'est fait on ajoute une ligne dans "src/js/server.js" : `require(./routes/maTable.routes.js")` pour que le serveur sache quoi utiliser pour quelle requête.
+
+Enfin on peut tester l'API via Postman : https://web.postman.co/
+
+## VI - Problèmes à résoudre du site
 
 Le plus gros problème qu'on a pour l'instant c'est de créer la bdd, faire une API pour communiquer avec elle et surtout que ça fonctionne. Déjà quand ça ça sera fait on sera pas mal. 
 
 Ensuite il va falloir absolument qu'on trouve le moyen de transmettre les données des form à la bdd donc encore une fois ça va être marrant ça mais on pourra pas y couper sinon notre site sera naze. Mais ça devrait le faire on y croit.
+
+## Choses à installer pour pouvoir bosser sur le site
+
+* éditeur de texte cool
+* node.js 
+* xampp , pour gérer notre BDD en mode newbie
+* Postman , logiciel permettant de tester notre API facilement
+* Différents modules : 
+    * `mysql` , pour gérer la bdd mysql avec node
+    * `express` , pour créer l'API
+    * `body-parser` , pour gérer les requêtes REST encodées dans l'URL 
+    * `axios` , pour consommer notre API
+    * `bootstrap`
+    * `bootstrap-vue`
+    * `vue-cli`
+    
