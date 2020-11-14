@@ -54,11 +54,22 @@ con.connect(function(err){
         idTypeParent INT,\
         PRIMARY KEY (idType)\
     )";
-    
+    //FOREIGN KEY (idTypeParent) REFERENCES Type (idType) ON DELETE SET NULL ON UPDATE SET NULL\
+
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Type created");
     });
+
+    con.query("INSERT INTO Type VALUES(0, 'Vêtements', null)", function(err, result){
+        if(err) throw err;
+        console.log("Type racine inséré");
+    });
+
+    con.query("ALTER TABLE Type ADD FOREIGN KEY(idTypeParent) REFERENCES Type(idType) ON DELETE SET NULL ON UPDATE SET NULL;", function(err, result){
+        if(err) throw err;
+        console.log("Clé étrangère Type ajoutée");
+    })
 
     req = "CREATE TABLE IF NOT EXISTS Notes\
     (\

@@ -59,7 +59,7 @@ Utilisateur.findById = (id, result) => {
 
 Utilisateur.updateById = (id, utilisateur, result) => {
     sql.query("UPDATE Utilisateur SET genre=?, nom=?, prenom=?, age=?, adresse=?, email=?, telephone=? WHERE idUtilisateur=?",
-             [utilisateur.genre, utilisateur.nom, utilisateur.prenom, utilisateur.age, utilisateur.adresse, utilisateur.email, utilisateur.telephone, utilisateur.idUtilisateur], 
+             [utilisateur.genre, utilisateur.nom, utilisateur.prenom, utilisateur.age, utilisateur.adresse, utilisateur.email, utilisateur.telephone, id], 
              (err, res) => {
                 if(err){
                     console.log("error: ", err);
@@ -98,17 +98,17 @@ Utilisateur.remove = (id, result) => {
     });
   };
   
-  Utilisateur.removeAll = result => {
-    sql.query("DELETE FROM Utilisateur", (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
-      }
-  
-      console.log(`deleted ${res.affectedRows} utilisateur`);
-      result(null, res);
-    });
-  };
+Utilisateur.removeAll = result => {
+sql.query("DELETE FROM Utilisateur", (err, res) => {
+    if (err) {
+    console.log("error: ", err);
+    result(null, err);
+    return;
+    }
+
+    console.log(`deleted ${res.affectedRows} utilisateur`);
+    result(null, res);
+});
+};
   
   module.exports = Utilisateur;
