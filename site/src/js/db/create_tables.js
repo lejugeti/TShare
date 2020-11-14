@@ -89,8 +89,8 @@ con.connect(function(err){
         console.log("Table Notes created");
     });
 
-
-    req = "CREATE TABLE IF NOT EXISTS Vetement\
+    req =
+      "CREATE TABLE IF NOT EXISTS Vetement\
     (\
         idVetement INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
         idProprietaire INT NOT NULL,\
