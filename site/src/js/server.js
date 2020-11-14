@@ -14,7 +14,9 @@ app.get("/", (req, res) => {
   res.json({ message: "Damn les gens c'est Antman" });
 });
 
+// defines the routes for the server
 require("./api/routes/utilisateur.routes.js")(app);
+require("./api/routes/type.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
