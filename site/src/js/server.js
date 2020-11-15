@@ -53,6 +53,7 @@ require("./api/routes/note.routes.js")(app);
 require("./api/routes/utilisateur.routes.js")(app);
 require("./api/routes/location.routes.js")(app);
 require("./api/routes/vetement.routes.js")(app);
+require("./api/routes/note.routes.js")(app);
 require("./api/routes/type.routes.js")(app);
 
 app.post("/upload", upload.single("file"), (req, res)=> console.log("bonjour"));
@@ -70,5 +71,5 @@ app.use(function(err, req, res, next){
 })
 // set port, listen for requests
 app.listen(3000, () => {
-console.log("Server is running on port 3000.");
+  console.log("Server is running on port 3000.");
 });
