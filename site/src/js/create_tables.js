@@ -23,7 +23,7 @@ con.connect(function(err){
         email VARCHAR(100) NOT NULL,\
         telephone INT\
     );";
-        
+
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Utilisateur created");
@@ -71,6 +71,7 @@ con.connect(function(err){
         console.log("Clé étrangère Type ajoutée");
     })
 
+<<<<<<< HEAD
     req = "CREATE TABLE IF NOT EXISTS Notes\
     (\
         idNote INT NOT NULL AUTO_INCREMENT,\
@@ -83,12 +84,14 @@ con.connect(function(err){
         FOREIGN KEY (idEmetteur) REFERENCES Utilisateur(idUtilisateur),\
         FOREIGN KEY (idRecepteur) REFERENCES Utilisateur(idUtilisateur)\
     )";
-    
+
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Notes created");
     });
 
+=======
+>>>>>>> api_paul
     req = "CREATE TABLE IF NOT EXISTS Vetement\
     (\
         idVetement INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
@@ -109,7 +112,11 @@ con.connect(function(err){
         FOREIGN KEY (idProprietaire) REFERENCES Utilisateur(idUtilisateur),\
         FOREIGN KEY (idType) REFERENCES Type(idType)\
     )";
-    
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> api_paul
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Vetement created");
@@ -133,7 +140,11 @@ con.connect(function(err){
         FOREIGN KEY (idLocataire) REFERENCES Utilisateur(idUtilisateur),\
         FOREIGN KEY (idVetement) REFERENCES Vetement(idVetement)\
     )";
-    
+<<<<<<< HEAD
+
+=======
+
+>>>>>>> api_paul
     con.query(req, function(err, result){
         if(err) throw err;
         console.log("Table Location created");
@@ -141,4 +152,7 @@ con.connect(function(err){
         con.end();
     });
 });
+<<<<<<< HEAD
 
+=======
+>>>>>>> api_paul
