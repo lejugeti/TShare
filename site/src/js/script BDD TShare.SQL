@@ -1,6 +1,6 @@
-CREATE DATABASE TShare;
+CREATE DATABASE tshare;
 
-CREATE TABLE Utilisateur 
+CREATE TABLE Utilisateur
 (
 	idUtilisateur INT NOT NULL AUTO_INCREMENT,
 	genre VARCHAR(100),
@@ -20,7 +20,7 @@ CREATE TABLE Notes
 	idRecepteur INT NOT NULL,
 	note INT NOT NULL,
 	commentaire VARCHAR(500),
-	dateNote DATETIME NOT NULL DEFAULT GETDATE(),
+	dateNote DATETIME NOT NULL DEFAULT CURDATE(),
 	PRIMARY KEY (idNote),
 	FOREIGN KEY (idEmetteur) REFERENCES Utilisateur(idUtilisateur),
 	FOREIGN KEY (idRecepteur) REFERENCES Utilisateur(idUtilisateur)
@@ -39,7 +39,7 @@ CREATE TABLE Vetement
 	idVetement INT NOT NULL AUTO_INCREMENT,
 	idProprietaire INT NOT NULL,
 	idType INT NOT NULL,
-	dateDebutDispo DATETIME NOT NULL DEFAULT GETDATE(),
+	dateDebutDispo DATETIME NOT NULL DEFAULT CURDATE(),
 	dateFinDispo DATETIME,
 	taille VARCHAR(100) NOT NULL,
 	etat VARCHAR(100) NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE Vetement
 	caution INT NOT NULL DEFAULT 0,
 	disponible BOOLEAN NOT NULL DEFAULT true,
 	photo VARCHAR(100),
-	marque VACHAR(100),
+	marque VARCHAR(100),
 	PRIMARY KEY (idVetement),
 	FOREIGN KEY (idProprietaire) REFERENCES Utilisateur(idUtilisateur),
 	FOREIGN KEY (idType) REFERENCES Type(idType)
@@ -64,7 +64,7 @@ CREATE TABLE Location
 	idVetement INT NOT NULL,
 	dateDemande DATETIME,
 	dateAcceptation DATETIME,
-	dateDebut DATETIME NOT NULL DEFAULT GETDATE(),
+	dateDebut DATETIME NOT NULL DEFAULT CURDATE(),
 	dateFinPrevue DATETIME NOT NULL,
 	dateRendu DATETIME,
 	etatDebut VARCHAR(100) NOT NULL,
@@ -74,5 +74,3 @@ CREATE TABLE Location
 	FOREIGN KEY (idLocataire) REFERENCES Utilisateur(idUtilisateur),
 	FOREIGN KEY (idVetement) REFERENCES Vetement(idVetement)
 );
-
-
