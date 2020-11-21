@@ -1,7 +1,7 @@
 <template>
   <div id="body">
     <!-- Caroussel d'images -->
-    <div>
+    <div id="photos">
       <b-carousel id="carousel" :interval="0" controls indicators>
         <b-carousel-slide v-for="value in images" :key="value">
           <template #img>
@@ -9,7 +9,11 @@
           </template>
         </b-carousel-slide>
       </b-carousel>
+      <a id="signaler" href="">Signaler cette annonce</a>
     </div>
+    
+      
+    
 
     <!-- Caractéristiques du vêtement -->
     <div id="texte">
@@ -54,13 +58,14 @@
 
 <script>
 import Vue from "vue";
+import axios from 'axios';
 
 export default {
   name: "affichageVetement",
   data() {
     return {
       images: ["teeShirt.png", "logo.png"],
-      titre: "Titre du produit",
+      titre: null,
       localisation: "33000 Bordeaux",
       marque: "Petit Bateau",
       taille: "XXL",
@@ -77,12 +82,21 @@ export default {
       calEstCache: true,
     };
   },
-   methods: {
+  methods: {
       dateClass(ymd, date) {
         console.log(this.dateMin);
         return date >= this.dateMin && date <= this.dateMax ? 'table-info' : ''
       }
-    }
+  },
+  mounted() {
+    axios.get('http://localhost:3000/vetements')
+    .then(response => {
+      this.titre = response.data
+    })
+    .catch(e => {
+      this.errors.push(e)
+    })
+  },
 };
 </script>
 
