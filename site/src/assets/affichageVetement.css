@@ -60,7 +60,7 @@
 }
 
 #commentaires {
-    display: inline-block;
+    display: block;
     text-align: left;
     margin: 5%;
 }

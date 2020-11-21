@@ -95,6 +95,7 @@ con.connect(function(err){
         idVetement INT NOT NULL AUTO_INCREMENT PRIMARY KEY,\
         idProprietaire INT NOT NULL,\
         idType INT NOT NULL,\
+        titre VARCHAR(100) NOT NULL,\
         dateDebutDispo DATETIME NOT NULL,\
         dateFinDispo DATETIME,\
         taille VARCHAR(100) NOT NULL,\
@@ -108,6 +109,8 @@ con.connect(function(err){
         photo VARCHAR(100),\
         marque VARCHAR(100),\
         categorie VARCHAR(100) NOT NULL,\
+        localisation VARCHAR(100) NOT NULL,\
+	    couleur VARCHAR(100) NOT NULL,\
         FOREIGN KEY (idProprietaire) REFERENCES Utilisateur(idUtilisateur),\
         FOREIGN KEY (idType) REFERENCES Type(idType)\
     )";
