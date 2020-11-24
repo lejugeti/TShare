@@ -214,7 +214,7 @@
                     </b-col>
                 </b-row>
                 <b-row align-h="center">
-                    <b-button id="btn-submit" type="submit" variant="success">Ajouter</b-button>
+                    <b-button id="btn-submit" type="submit">Ajouter</b-button>
                 </b-row>
             </b-container>
         </b-form>
@@ -263,7 +263,11 @@ export default {
         onSubmit(evt){
             evt.preventDefault();
             console.log(JSON.stringify(this.form));
-            
+            axios.
+                post("/vetement",
+                {
+                    
+                })
         }
     }
 };
@@ -277,7 +281,10 @@ export default {
     }
 
     #btn-submit{
+        color: black;
+        font-weight: bold;
         width: 15em;
+        background-color: #B8D6AA;
     }
     .input-row {
         margin-bottom: 1em;
