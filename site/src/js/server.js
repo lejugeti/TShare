@@ -18,6 +18,8 @@ res.json({ message: "C'est chi c'est po c'est chipo" });
 require("./api/routes/type.routes.js")(app);
 require("./api/routes/note.routes.js")(app);
 require("./api/routes/utilisateur.routes.js")(app);
+require("./api/routes/location.routes.js")(app);
+require("./api/routes/vetement.routes.js")(app);
 
 // set port, listen for requests
 app.listen(3000, () => {
