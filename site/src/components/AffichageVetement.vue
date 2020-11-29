@@ -16,6 +16,7 @@
     <div id="texte">
       <h2>{{ posts.titre }}</h2>
       <div id="infos">
+        <p>Prix : {{ posts.prix }}€</p>
         <p>Localisation : {{ posts.localisation }}</p>
 
         <div id="calendrier">
@@ -33,6 +34,11 @@
         <p v-if="posts.marque != null">Marque : {{ posts.marque }}</p>
         <p>Taille : {{ posts.taille }}</p>
         <p>Couleur : {{ posts.couleur }}</p>
+        <p>Etat : {{ posts.etat }}</p>
+        <p>Genre : {{ posts.genre }}</p>
+        <p>Condition de retour : {{ posts.conditionRetour }}</p>
+        <p>Caution : {{ posts.caution }}€</p>
+
         <p v-if="posts.description != null">
           Description : <br />
           {{ posts.description }}
