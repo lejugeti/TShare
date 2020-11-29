@@ -62,7 +62,7 @@
     <!-- Commentaires -->
     <div id="commentaires">
       <p>Commentaires sur le propriétaire :</p>
-      <div id="avis" v-for="value in notes" :key="value">
+      <div id="avis" v-for="value in listeNotesContientCom" :key="value">
         {{ value.commentaire }}
       </div>
     </div>
@@ -81,10 +81,17 @@ export default {
       posts: [],
       proprietaire: [],
       notes: [],
-      images: ["teeShirt.png", "logo.png"],
+      images: [],
       calEstCache: true
     };
   },
+
+  computed: {
+    listeNotesContientCom: function() {
+      return this.notes.filter(i => i.commentaire != null);
+    }
+  },
+
   methods: {
     dateClass(ymd, date) {
       var estDispo;
@@ -98,12 +105,12 @@ export default {
       return estDispo ? "table-info" : "";
     },
 
-    moyenneNotes(){
+    moyenneNotes() {
       var moy = 0;
-      for(var value of this.notes){
+      for (var value of this.notes) {
         moy += value.note;
       }
-      return moy/this.notes.length;
+      return moy / this.notes.length;
     },
 
     getUtilisateur() {
@@ -117,10 +124,9 @@ export default {
         });
     },
 
-//Api a modifier pour obtenir les notes d'un utilisateur
-    getNotes(){
+    getNotes() {
       axios
-        .get("http://localhost:3000/note")
+        .get("http://localhost:3000/noteUser/" + this.posts.idProprietaire)
         .then(response => {
           this.notes = response.data;
         })
@@ -129,6 +135,7 @@ export default {
         });
     }
   },
+
   mounted() {
     axios
       .get("http://localhost:3000/vetement/" + this.$route.params.id)
@@ -136,6 +143,7 @@ export default {
         this.posts = response.data;
         this.getUtilisateur();
         this.getNotes();
+        this.images = this.posts.photo.split(";");
       })
       .catch(e => {
         this.errors.push(e);

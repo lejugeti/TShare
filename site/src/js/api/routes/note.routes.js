@@ -10,6 +10,9 @@ module.exports = app => {
   // Retrieve a single Customer with customerId
   app.get("/note/:noteId", note.findOne);
 
+  // Retrieve the note of a specific user
+  app.get("/noteUser/:userId", note.findUser);
+
   // Update a Customer with customerId
   app.put("/note/:noteId", note.update);
 
