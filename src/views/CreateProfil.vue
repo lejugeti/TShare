@@ -1,0 +1,290 @@
+<template>
+  <div>
+    <greenline title="Créer mon compte"/>
+    <div class="form-container">
+      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+
+        <!-- PRENOM -->
+        <b-form-group
+          label="Prénom:"
+          label-cols-lg="3"
+          label-for="input-2">
+          <b-form-input
+            id="input-2"
+            v-model="nouveauProfil.prenom"
+            required
+            placeholder="Entrer votre prénom"
+          ></b-form-input>
+        </b-form-group>
+
+        <!-- NOM -->
+        <b-form-group
+          label="Nom:"
+          label-for="input-1"
+          label-cols-lg="3">
+          <b-form-input
+            id="input-1"
+            v-model="nouveauProfil.nom"
+            required
+            placeholder="Entrer votre nom"
+          ></b-form-input>
+        </b-form-group>
+
+        <!-- GENRE -->
+        <b-form-group
+          label="Genre:"
+          label-cols-lg="3">
+          <b-form-radio-group v-model="nouveauProfil.genre" required >
+            <b-form-radio value="femme">Féminin</b-form-radio>
+            <b-form-radio value="homme">Masculin</b-form-radio>
+            <b-form-radio value="autre">Non défini</b-form-radio>
+          </b-form-radio-group>
+        </b-form-group>
+
+        <!-- DATE DE NAISSANCE -->
+        <b-form-group
+          label="Date de naissance:"
+          label-for="input-3"
+          label-cols-lg="3">
+          <b-form-input
+            id="input-3"
+            v-model="nouveauProfil.dateDeNaissance"
+            type="date"
+            required
+            placeholder="Entrer votre date de naissance"
+          ></b-form-input>
+        </b-form-group>
+
+        <!-- ADRESSE -->
+        <b-form-group
+          label="Adresse:"
+          label-cols-lg="3"
+          label-for="input-4">
+          <b-form-input
+            id="input-4"
+            class="form-line"
+            v-model="ligneAdresse1"
+            @change="onTextAdressChanged"
+            required
+            placeholder="Ligne 1">
+          </b-form-input>
+          <b-form-input
+            class="form-line"
+            v-model="ligneAdresse2"
+            @change="onTextAdressChanged"
+            placeholder="Ligne 2">
+          </b-form-input>
+          <div class="form-adress-group form-line">
+          <b-form-input
+            v-model="codePostal"
+            @change="onTextAdressChanged"
+            required
+            placeholder="Code postal">
+          </b-form-input>
+          <b-form-input
+            v-model="ville"
+            @change="onTextAdressChanged"
+            required
+            placeholder="Ville">
+          </b-form-input>
+          </div>
+        </b-form-group>
+
+        <!-- TELEPHONE -->
+        <b-form-group
+          label="Téléphone:"
+          label-cols-lg="3"
+          label-for="input-7">
+          <b-form-input
+            id="input-7"
+            v-model="nouveauProfil.telephone"
+            type="tel"
+            required
+            placeholder="Entrer votre téléphone"
+          ></b-form-input>
+        </b-form-group>
+
+        <!-- EMAIL -->
+        <b-form-group
+          label="Adresse mail:"
+          label-for="input-5"
+          label-cols-lg="3">
+          <b-form-input
+            id="input-5"
+            v-model="nouveauProfil.email"
+            type="email"
+            required
+            placeholder="Entrer mail"
+          ></b-form-input>
+          <b-form-input
+            class="form-line"
+            v-model="email2"
+            type="email"
+            required
+            placeholder="Confirmer votre mail"
+            :state="emailState"
+            aria-describedby="input-live-help input-live-feedback1"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-live-feedback1">
+            Emails différents
+          </b-form-invalid-feedback>
+        </b-form-group>
+
+        <!-- MOT DE PASSE -->
+        <b-form-group
+          label="Mot de passe:"
+          label-for="input-6"
+          label-cols-lg="3">
+          <b-form-input
+            id="input-6"
+            v-model="nouveauProfil.motdepasse"
+            type="password"
+            required
+            placeholder="Mot de passe"
+          ></b-form-input>
+          <b-form-input
+            class="form-line"
+            v-model="motdepasse2"
+            type="password"
+            required
+            placeholder="Confirmer mot de passe"
+            :state="mdpState"
+            aria-describedby="input-live-help input-live-feedback2"
+          ></b-form-input>
+          <b-form-invalid-feedback id="input-live-feedback2">
+            Mots de passe différents
+          </b-form-invalid-feedback>
+        </b-form-group>
+
+        <!-- CGU -->
+        <b-form-checkbox
+          name="checkbox-CGU"
+          value="accepted"
+          unchecked-value="not_accepted"
+          required>
+          En cochant cette case, vous accepter nos conditions générals d’utilisations et notre politique de confidentialité
+        </b-form-checkbox>
+
+        <!-- VALIDATION -->
+        <div class="submit-group">
+          <b-button type="submit" variant="primary">Valider</b-button>
+        </div>
+
+      </b-form>
+    </div>
+  </div>
+</template>
+
+<script>
+import greenline from '@/components/GreenLine.vue'
+
+export default {
+  components: {
+    greenline
+  },
+  data () {
+    return {
+      nouveauProfil: {
+        genre: '',
+        nom: '',
+        prenom: '',
+        dateDeNaissance: '',
+        adresse: '',
+        email: '',
+        telephone: '',
+        motdepasse: ''
+      },
+      email2: '',
+      motdepasse2: '',
+      ligneAdresse1: '',
+      ligneAdresse2: '',
+      codePostal: '',
+      ville: '',
+      show: true
+    }
+  },
+  methods: {
+    onSubmit (evt) {
+      evt.preventDefault()
+      var jsonData = JSON.stringify(this.nouveauProfil)
+      console.log(JSON.stringify(this.nouveauProfil))
+      fetch('http://localhost:3000/utilisateur/', {
+        method: 'POST',
+        body: json,
+        headers: {
+          'Content-Type' : 'application/json; charset=UTF-8', 
+          'Content-Length' : jsonData.length 
+        }
+      }).then(response => response.json()) 
+        .then(json => console.log(json))
+        .catch(err => console.log(err))
+    },
+    onReset (evt) {
+      evt.preventDefault()
+      // Reset our form values
+      this.form.email = ''
+      this.form.email2 = ''
+      this.form.nom = ''
+      this.form.age = ''
+      this.form.prenom = ''
+      this.form.genre = ''
+      this.form.motdepasse = ''
+      this.form.motdepasse2 = ''
+      // Trick to reset/clear native browser form validation state
+      this.show = false
+      this.$nextTick(() => {
+        this.show = true
+      })
+    },
+    onTextAdressChanged () {
+      this.nouveauProfil.adresse = this.ligneAdresse1 + ', ' + (this.ligneAdresse2.length > 0 ? this.ligneAdresse2 + ', ' : '') + this.codePostal + ' ' + this.ville
+    }
+  },
+  computed: {
+    mdpState () {
+      if (this.nouveauProfil.motdepasse.length > 0) {
+        if (this.nouveauProfil.motdepasse === this.motdepasse2) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return undefined
+    },
+    emailState () {
+      if (this.nouveauProfil.email.length > 0) {
+        if (this.nouveauProfil.email === this.email2) {
+          return true
+        } else {
+          return false
+        }
+      }
+      return undefined
+    }
+  }
+}
+</script>
+
+<style scoped>
+.form-container{
+  width: 80%;
+  max-width: 800px;
+  margin: auto;
+  text-align: left;
+  padding-top: 30px;
+}
+.submit-group{
+  width: 100%;
+  text-align: right;
+}
+.form-adress-group{
+  display: flex;
+}
+.form-adress-group :nth-child(1){
+  margin-right: 8px;
+  flex-shrink: 2;
+}
+.form-line{
+  margin-top: 4px;
+}
+</style>
