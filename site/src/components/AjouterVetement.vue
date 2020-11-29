@@ -233,42 +233,52 @@ export default {
     data() {
         return {
             form:{
-                titre:"",
-                marque:"",
-                description:"",
-                pathImage:"",
+                titre:"bonjour",
+                marque:"lacoste",
+                description:"test test",
+                pathImage:"image.jpg",
                 dateDebut:"10-10-2020",
                 dateFin:"10-10-2020",
-                caution: null,
-                conditionsEnvoi:"",
-                conditionsRetour:"",
-                categorie: null,
-                etat: null,
-                type: null,
+                caution: 10,
+                conditionsEnvoi:"Tout beau tout propre",
+                conditionsRetour:"Tout beau tout propre",
+                categorie: "Jogging",
+                etat: "Neuf",
+                type: "Masculin",
                 checkPrixJour:false,
                 checkPrixSemaine:false,
                 checkPrixMois:false,
-                prixJour: null,
-                prixSemaine: null,
-                prixMois: null,
+                prixJour: 10,
+                prixSemaine: 10,
+                prixMois: 10,
+                prix: 10,
                 vetementEnfant: false
             },
-            categories: [{text:"--- Choisissez une catégorie ---", value: null}, {text:"categorie bg", value: 1}],
-            etat: [{text: "--- Choisissez un état ---", value: null}, {text:"Neuf", value: 1}, {text:"Très bon état", value:2}, {text: "Bon état", value:3}, {text:"Moyen", value: 4}, {text:"Usé", value: 5}, {text: "Mauvais état", value:6}],
-            type: [{text: "--- Choisissez un type ---", value: null}, {text:"Masculin", value: 1}, {text:"Féminin", value:2}, {text: "Unisexe", value:3}],
-            conditionsEnvoi: [{text: "--- Condition d'envoi ---", value: null}, {text:"Tout beau tout propre", value: 1}, {text:"Lavage obligé mamène", value:2}, {text: "crado dégueu", value:3}]
+            categories: [{text:"--- Choisissez une catégorie ---", value: null}, {text:"Jogging", value: "Jogging"}],
+            etat: [{text: "--- Choisissez un état ---", value: null}, {text:"Neuf", value: "Neuf"}, {text:"Très bon état", value:"Très bon état"}, {text: "Bon état", value:"Bon état"}, {text:"Moyen", value: "Moyen"}, {text:"Usé", value: "Usé"}, {text: "Mauvais état", value:"Mauvais état"}],
+            type: [{text: "--- Choisissez un type ---", value: null}, {text:"Masculin", value: "Masculin"}, {text:"Féminin", value:"Féminin"}, {text: "Unisexe", value:"Unisexe"}],
+            conditionsEnvoi: [{text: "--- Condition d'envoi ---", value: null}, {text:"Tout beau tout propre", value: "Tout beau tout propre"}, {text:"Lavage obligé mamène", value:"Lavage obligé mamène"}, {text: "crado dégueu", value:"crado dégueu"}]
         }
     },
     methods: {
-        onSubmit(evt){
+        onSubmit: function(evt){
             evt.preventDefault();
             console.log(JSON.stringify(this.form));
+            // console.log(this.form);
             axios.
-                post("/vetement",
-                {
-                    
-                })
+                post("http://localhost:3000/vetement", this.form)
+                    .then(function(rep){
+                        console.log(rep);
+                    })
+                    .catch(function(err){
+                        console.log(err);
+                    });
+            
         }
+        
+    },
+    componentDidMount() {
+        // console.log(this.etat);
     }
 };
 </script>
