@@ -23,9 +23,11 @@
             </router-link>
           </div>
           <div class="nav-btn-container" v-else>
-            <div class="nav-profil">
-              <span>Bonjour, {{ nomUtilisateur }}</span>
-            </div>
+            <b-nav-item-dropdown :text="'Bonjour, ' + nomUtilisateur " right class="nav-profil">
+              <b-dropdown-item >
+                <span class="nav-item-profil" @click="onLogOut">Déconnexion</span>
+                </b-dropdown-item>
+            </b-nav-item-dropdown>
           </div>
         </b-navbar-nav>
       </b-collapse>
@@ -50,6 +52,11 @@ export default {
     nomUtilisateur () {
       return this.$store.state.nomUtilisateur
     }
+  },
+  methods: {
+    onLogOut () {
+      this.$store.commit('disconnected')
+    }
   }
 }
 </script>
@@ -68,8 +75,11 @@ export default {
   }
   .nav-profil {
     border: 1px solid #555;
-    border-radius: 5px;
-    padding: 5px;
+    border-radius: 10px;
     margin-left: 16px;
+    border-color: #B8D6AA;
+  }
+  .nav-item-profil {
+    color: #777;
   }
 </style>

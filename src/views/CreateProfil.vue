@@ -222,7 +222,7 @@ export default {
           'Content-Length': jsonData.length
         }
       }).then(response => response.json())
-        .then((json, err) => {
+        .then(json => {
           if (typeof json.idUtilisateur !== 'undefined') {
             const infoConnection = {
               idUt: json.idUtilisateur.toString(),
@@ -230,8 +230,8 @@ export default {
             }
             console.log(infoConnection.nom)
             this.$store.commit('connected', infoConnection)
-          } else {
-            console.log(json.message === 'Email address already used')
+            this.$router.push('/')
+          } else if (json.message === 'Email address already used') {
             this.mailAvailable = false
             this.emailState = false
           }
