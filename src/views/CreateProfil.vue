@@ -210,12 +210,12 @@ export default {
       console.log(JSON.stringify(this.nouveauProfil))
       fetch('http://localhost:3000/utilisateur/', {
         method: 'POST',
-        body: json,
+        body: jsonData,
         headers: {
-          'Content-Type' : 'application/json; charset=UTF-8', 
-          'Content-Length' : jsonData.length 
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Length': jsonData.length
         }
-      }).then(response => response.json()) 
+      }).then(response => response.json())
         .then(json => console.log(json))
         .catch(err => console.log(err))
     },

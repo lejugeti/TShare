@@ -23,6 +23,7 @@ exports.create = (req, res) => {
   
     // Save utilisateur in the database
     Utilisateur.create(utilisateur, (err, data) => {
+      console.log(data);
       if (err)
         res.status(500).send({
           message:

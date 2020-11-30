@@ -21,8 +21,8 @@ Utilisateur.create = (newUtilisateur, result) => {
             result(err, null);
             return;
         }
-
         console.log("utilisateur créé : ", {idUtilisateur: newUtilisateur.idUtilisateur, ...newUtilisateur});
+        result(null,{idUtilisateur: res.insertId})
     })
 };
 
@@ -33,8 +33,6 @@ Utilisateur.getAll = result => {
             result(err, null);
             return;
         }
-
-        console.log("utilisateurs:", res);
         result(null, res);
         return;
     });
