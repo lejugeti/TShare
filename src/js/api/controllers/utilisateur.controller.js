@@ -20,17 +20,24 @@ exports.create = (req, res) => {
         telephone: req.body.telephone,
         motdepasse: req.body.motdepasse
     });
-  
-    // Save utilisateur in the database
-    Utilisateur.create(utilisateur, (err, data) => {
-      console.log(data);
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while creating utilisateur."
+
+    Utilisateur.isMailUsed(utilisateur.email, (err, data) => {
+      if(data === 0) {
+        // Save utilisateur in the database
+        Utilisateur.create(utilisateur, (err, data) => {
+          if (err)
+            res.status(500).send({
+              message:
+                err.message || "Some error occurred while creating utilisateur."
+            });
+          else res.send(data);
         });
-      else res.send(data);
+      }
+      else res.send({
+        message: "Email address already used"
+      });
     });
+  
 };
 
 exports.getAll = (req, res) => {

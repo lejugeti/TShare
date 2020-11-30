@@ -38,6 +38,19 @@ Utilisateur.getAll = result => {
     });
 };
 
+Utilisateur.isMailUsed = (email, result) => {
+    sql.query("SELECT count(*) as count FROM Utilisateur WHERE email = ?", email, (err, res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null);
+            return;
+        }
+        var string = JSON.stringify(res);
+        var json = JSON.parse(string);
+        result(null, json[0].count);
+    })
+};
+
 Utilisateur.findById = (id, result) => {
     sql.query("SELECT * FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {
         if(err){

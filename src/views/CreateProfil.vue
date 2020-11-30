@@ -115,6 +115,9 @@
             type="email"
             required
             placeholder="Entrer mail"
+            :state="emailState"
+            @change="actualizeMailFeedback()"
+            aria-describedby="input-live-help input-live-feedback1"
           ></b-form-input>
           <b-form-input
             class="form-line"
@@ -123,10 +126,11 @@
             required
             placeholder="Confirmer votre mail"
             :state="emailState"
+            @change="actualizeMailFeedback()"
             aria-describedby="input-live-help input-live-feedback1"
           ></b-form-input>
           <b-form-invalid-feedback id="input-live-feedback1">
-            Emails différents
+            {{ mailDescription }}
           </b-form-invalid-feedback>
         </b-form-group>
 
@@ -194,6 +198,8 @@ export default {
         telephone: '',
         motdepasse: ''
       },
+      mailDescription: 'Adresses mail différentes',
+      mailAvailable: true,
       email2: '',
       motdepasse2: '',
       ligneAdresse1: '',
@@ -206,8 +212,8 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      var jsonData = JSON.stringify(this.nouveauProfil)
       console.log(JSON.stringify(this.nouveauProfil))
+      var jsonData = JSON.stringify(this.nouveauProfil)
       fetch('http://localhost:3000/utilisateur/', {
         method: 'POST',
         body: jsonData,
@@ -216,7 +222,7 @@ export default {
           'Content-Length': jsonData.length
         }
       }).then(response => response.json())
-        .then(json => {
+        .then((json, err) => {
           if (typeof json.idUtilisateur !== 'undefined') {
             const infoConnection = {
               idUt: json.idUtilisateur.toString(),
@@ -224,6 +230,10 @@ export default {
             }
             console.log(infoConnection.nom)
             this.$store.commit('connected', infoConnection)
+          } else {
+            console.log(json.message === 'Email address already used')
+            this.mailAvailable = false
+            this.emailState = false
           }
         })
         .catch(err => console.log(err))
@@ -247,6 +257,10 @@ export default {
     },
     onTextAdressChanged () {
       this.nouveauProfil.adresse = this.ligneAdresse1 + ', ' + (this.ligneAdresse2.length > 0 ? this.ligneAdresse2 + ', ' : '') + this.codePostal + ' ' + this.ville
+    },
+    actualizeMailFeedback () {
+      this.mailDescription = 'Adresses mail différentes'
+      this.mailAvailable = true
     }
   },
   computed: {
@@ -260,15 +274,25 @@ export default {
       }
       return undefined
     },
-    emailState () {
-      if (this.nouveauProfil.email.length > 0) {
-        if (this.nouveauProfil.email === this.email2) {
+    emailState: {
+      get: function () {
+        if (this.nouveauProfil.email === this.email2 && this.nouveauProfil.email.length > 0 && this.mailAvailable) {
           return true
+        } else if (this.nouveauProfil.email.length === 0) {
+          return undefined
         } else {
           return false
         }
+      },
+      set: function (estValide) {
+        if (!estValide) {
+          if (!this.mailAvailable) {
+            this.mailDescription = 'Adresse mail déjà utilisée'
+          } else {
+            this.mailDescription = 'Adresse mail différentes'
+          }
+        }
       }
-      return undefined
     }
   }
 }
