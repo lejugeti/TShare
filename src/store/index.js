@@ -9,9 +9,9 @@ export default new Vuex.Store({
     nomUtilisateur: 'Jean Heimard'
   },
   mutations: {
-    connected (idUt, nom) {
-      this.idUtilisateur = idUt
-      this.nomUtilisateur = nom
+    connected (state, info) {
+      state.idUtilisateur = info.idUt
+      state.nomUtilisateur = info.nom
     }
   },
   actions: {

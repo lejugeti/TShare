@@ -216,7 +216,16 @@ export default {
           'Content-Length': jsonData.length
         }
       }).then(response => response.json())
-        .then(json => console.log(json))
+        .then(json => {
+          if (typeof json.idUtilisateur !== 'undefined') {
+            const infoConnection = {
+              idUt: json.idUtilisateur.toString(),
+              nom: this.nouveauProfil.prenom + ' ' + this.nouveauProfil.nom
+            }
+            console.log(infoConnection.nom)
+            this.$store.commit('connected', infoConnection)
+          }
+        })
         .catch(err => console.log(err))
     },
     onReset (evt) {
