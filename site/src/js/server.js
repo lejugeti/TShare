@@ -1,18 +1,28 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 
 const app = express();
 
 // parse requests of content-type: application/json
 app.use(bodyParser.json());
-
+  
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// simple route
-app.get("/", (req, res) => {
-res.json({ message: "C'est chi c'est po c'est chipo" });
-});
+// set header to app in order to avoid CORS issues
+// app.use(function(req, res, next) {
+//     res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080/");
+//     next();
+//   });
+
+var corsOptions = {
+    origin: "http://localhost:8080",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 // defines the routes for the server
 require("./api/routes/type.routes.js")(app);

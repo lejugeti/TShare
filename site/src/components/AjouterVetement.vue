@@ -10,6 +10,19 @@
                 <b-row align-h="around">
                     <!-- COLONNE GAUCHE -->
                     <b-col id="colonneGauche" class="colonne-page" cols="3">
+                        <b-row id="inputGroupTitre" class="input-row">
+                            <b-col cols="3">
+                                <label for="inputTitre">Titre : </label>
+                            </b-col>
+                            <b-col>
+                                <b-form-input 
+                                id="inputTitre"
+                                v-model="form.titre"
+                                required
+                                >
+                                </b-form-input>
+                            </b-col>
+                        </b-row>
                         <b-form-group
                             id="group-form-description"
                             label="Description : "
@@ -25,17 +38,18 @@
                     
                     <!-- COLONNE MILIEU -->
                     <b-col id="colonneMilieu" class="colonne-page" cols="4">
-                        <b-row id="inputGroupTitre" class="input-row">
+                        <b-row id="selectGroupTaille" class="input-row">
                             <b-col cols="3">
-                                <label for="inputTitre">Titre : </label>
+                                <label for="selectTaille">Taille : </label>
                             </b-col>
                             <b-col>
-                                <b-form-input 
-                                id="inputTitre"
-                                v-model="form.titre"
+                                <b-form-select 
+                                id="selectTaille"
+                                v-model="form.taille"
+                                :options ="tailles"
                                 required
                                 >
-                                </b-form-input>
+                                </b-form-select>
                             </b-col>
                         </b-row>
                         <b-row id="inputGroupMarque" class="input-row">
@@ -71,7 +85,7 @@
                             <b-col>
                                 <b-form-select 
                                 id="selectEnvoi"
-                                v-model="form.conditionsEnvoi"
+                                v-model="form.conditionEnvoi"
                                 :options ="conditionsEnvoi"
                                 required
                                 >
@@ -85,7 +99,7 @@
                             <b-col>
                                 <b-form-select 
                                 id="selectRetour"
-                                v-model="form.conditionsRetour"
+                                v-model="form.conditionRetour"
                                 :options ="conditionsEnvoi"
                                 required
                                 >
@@ -105,8 +119,8 @@
                             <b-col>
                                 <b-form-select
                                     id="select-categories"
-                                    v-model="form.categorie"
-                                    :options="categories"
+                                    v-model="form.idType"
+                                    :options="types"
                                     required
                                 ></b-form-select>
                             </b-col>
@@ -129,14 +143,14 @@
                         <b-row class="input-row">
                             <b-col cols="3">
                                 <label id="label-select-type" for="select-type">
-                                    Type : 
+                                    Genre : 
                                 </label>
                             </b-col>
                             <b-col>
                                 <b-form-select
                                     id="select-type"
-                                    v-model="form.type"
-                                    :options="type"
+                                    v-model="form.genre"
+                                    :options="genre"
                                     required
                                 ></b-form-select>
                             </b-col>
@@ -219,7 +233,7 @@
             </b-container>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ form }}</pre>
+            <pre class="m-0">{{ types }}</pre>
         </b-card>
     </body>
 </template>
@@ -233,18 +247,20 @@ export default {
     data() {
         return {
             form:{
+                idProprietaire: 1,
                 titre:"bonjour",
                 marque:"lacoste",
                 description:"test test",
                 pathImage:"image.jpg",
-                dateDebut:"10-10-2020",
-                dateFin:"10-10-2020",
+                dateDebutDispo:"10-10-2020",
+                dateFinDispo:"10-10-2020",
                 caution: 10,
-                conditionsEnvoi:"Tout beau tout propre",
-                conditionsRetour:"Tout beau tout propre",
-                categorie: "Jogging",
+                conditionEnvoi:"Tout beau tout propre",
+                conditionRetour:"Tout beau tout propre",
+                idType: 2,
                 etat: "Neuf",
-                type: "Masculin",
+                taille: "M",
+                genre: "Masculin",
                 checkPrixJour:false,
                 checkPrixSemaine:false,
                 checkPrixMois:false,
@@ -252,33 +268,48 @@ export default {
                 prixSemaine: 10,
                 prixMois: 10,
                 prix: 10,
-                vetementEnfant: false
+                vetementEnfant: false,
+                photo: "./photo.jpg",
+                disponible: 1,
+                categorie: "Adulte"
             },
-            categories: [{text:"--- Choisissez une catégorie ---", value: null}, {text:"Jogging", value: "Jogging"}],
+            types: [{text:"--- Choisissez une catégorie ---", value: null}],
             etat: [{text: "--- Choisissez un état ---", value: null}, {text:"Neuf", value: "Neuf"}, {text:"Très bon état", value:"Très bon état"}, {text: "Bon état", value:"Bon état"}, {text:"Moyen", value: "Moyen"}, {text:"Usé", value: "Usé"}, {text: "Mauvais état", value:"Mauvais état"}],
-            type: [{text: "--- Choisissez un type ---", value: null}, {text:"Masculin", value: "Masculin"}, {text:"Féminin", value:"Féminin"}, {text: "Unisexe", value:"Unisexe"}],
-            conditionsEnvoi: [{text: "--- Condition d'envoi ---", value: null}, {text:"Tout beau tout propre", value: "Tout beau tout propre"}, {text:"Lavage obligé mamène", value:"Lavage obligé mamène"}, {text: "crado dégueu", value:"crado dégueu"}]
+            genre: [{text: "--- Choisissez un type ---", value: null}, {text:"Masculin", value: "Masculin"}, {text:"Féminin", value:"Féminin"}, {text: "Unisexe", value:"Unisexe"}],
+            conditionsEnvoi: [{text: "--- Condition d'envoi ---", value: null}, {text:"Tout beau tout propre", value: "Tout beau tout propre"}, {text:"Lavage obligé mamène", value:"Lavage obligé mamène"}, {text: "crado dégueu", value:"crado dégueu"}],
+            tailles: [{text:"--- Choisissez une taille ---", value: null}, {text:"XS", value: "XS"}, {text:"S", value: "S"}, {text:"M", value: "M"}, {text:"L", value: "L"}, {text:"XL", value: "XL"}, {text:"XXL", value: "XXL"}]
+
         }
     },
     methods: {
         onSubmit: function(evt){
             evt.preventDefault();
             console.log(JSON.stringify(this.form));
-            // console.log(this.form);
+            var reqData = this.form;
             axios.
-                post("http://localhost:3000/vetement", this.form)
+                post("http://localhost:3000/vetement", reqData)
                     .then(function(rep){
                         console.log(rep);
                     })
                     .catch(function(err){
                         console.log(err);
                     });
-            
         }
-        
     },
-    componentDidMount() {
-        // console.log(this.etat);
+    mounted(){
+        const vm = this;
+
+        axios.get("http://localhost:3000/type")
+            .then(function(res){
+                // on ajoute chaque type de vêtement sauf le type racine
+                res.data.forEach(element => {
+                    if(element.idType!=1){
+                        let tempType = {text: element.label, value: element.idType};
+                        vm.types.push(tempType);
+                    }
+                });
+            })
+            .catch(error => console.log(error))
     }
 };
 </script>

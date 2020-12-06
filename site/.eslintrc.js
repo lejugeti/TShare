@@ -1,4 +1,5 @@
 // https://eslint.org/docs/user-guide/configuring
+/* eslint linebreak-style: ["error", "windows"] */
 
 module.exports = {
   root: true,
@@ -45,7 +46,8 @@ module.exports = {
       optionalDependencies: ['test/unit/index.js']
     }],
     //linebreak for windows
-    'linebreak-style': ['error', 'windows'],
+    /* eslint linebreak-style: ["error", "windows"] */
+    'eslint linebreak-style': ['error', 'windows'],
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
