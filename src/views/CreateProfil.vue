@@ -230,7 +230,7 @@ export default {
             }
             console.log(infoConnection.nom)
             this.$store.commit('connected', infoConnection)
-            this.$router.push('/')
+            this.$router.go(-1)
           } else if (json.message === 'Email address already used') {
             this.mailAvailable = false
             this.emailState = false

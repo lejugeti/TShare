@@ -4,6 +4,8 @@ module.exports = app => {
     app.post("/utilisateur", utilisateur.create);
 
     app.get("/utilisateur", utilisateur.getAll);
+    
+    app.get('/utilisateur/mailMdpValide', utilisateur.tryFindUser);
 
     app.get("/utilisateur/:idUtilisateur", utilisateur.getById);
 

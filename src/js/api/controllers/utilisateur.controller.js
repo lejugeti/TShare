@@ -67,6 +67,28 @@ exports.getById = (req, res) => {
     });
 };
 
+exports.tryFindUser = (req, res) => {
+  if(!req.query) {
+    res.status(400).send({
+    message: "Content can not be empty!"
+    });
+  }
+  else{
+    Utilisateur.userExist(req.query.email, req.query.motdepasse, (err, data) => {
+      if(err){
+        if(err.kind === "not_exist")
+          res.send({
+            message: "Invalid information"
+          });
+        else
+          res.status(500).send({
+            message: "Error searching profil for connexion with email " + req.query.email
+          });
+      }else res.send(data)
+    });
+  }
+};
+
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -79,17 +101,17 @@ exports.update = (req, res) => {
         req.params.idUtilisateur,
         new Utilisateur(req.body),
         (err, data) => {
-        if (err) {
-            if (err.kind === "not_found") {
-            res.status(404).send({
-                message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
-            });
-            } else {
-            res.status(500).send({
-                message: "Error updating Utilisateur with id " + req.params.idUtilisateur
-            });
-            }
-        } else res.send(data);
+          if (err) {
+              if (err.kind === "not_found") {
+              res.status(404).send({
+                  message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
+              });
+              } else {
+              res.status(500).send({
+                  message: "Error updating Utilisateur with id " + req.params.idUtilisateur
+              });
+              }
+          } else res.send(data);
         }
     );
 };

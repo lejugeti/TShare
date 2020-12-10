@@ -26,7 +26,10 @@
             <b-nav-item-dropdown :text="'Bonjour, ' + nomUtilisateur " right class="nav-profil">
               <b-dropdown-item >
                 <span class="nav-item-profil" @click="onLogOut">Déconnexion</span>
-                </b-dropdown-item>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link class="nav-item-profil" :to="`/profil`">Profil</router-link>
+              </b-dropdown-item>
             </b-nav-item-dropdown>
           </div>
         </b-navbar-nav>

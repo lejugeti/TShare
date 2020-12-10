@@ -27,7 +27,7 @@ Utilisateur.create = (newUtilisateur, result) => {
 };
 
 Utilisateur.getAll = result => {
-    sql.query("SELECT * FROM Utilisateur", (err, res) => {
+    sql.query("SELECT nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur", (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -52,7 +52,7 @@ Utilisateur.isMailUsed = (email, result) => {
 };
 
 Utilisateur.findById = (id, result) => {
-    sql.query("SELECT * FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {
+    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -68,6 +68,22 @@ Utilisateur.findById = (id, result) => {
         result({kind: "not_found"}, null);
     })
 };
+
+Utilisateur.userExist = (email, motdepasse, result) =>{
+    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur WHERE email=? AND motdepasse=?", [email, motdepasse], (err,res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null);
+            return
+        }
+        if(res.length){
+            console.log("found utilisateur", res[0]);
+            result(null, res[0]);
+            return
+        }
+        result({kind: "not_exist"}, null);
+    })
+}
 
 Utilisateur.updateById = (id, utilisateur, result) => {
     sql.query("UPDATE Utilisateur SET genre=?, nom=?, prenom=?, dateDeNaissance=?, adresse=?, email=?, telephone=?, motdepasse=? WHERE idUtilisateur=?",
