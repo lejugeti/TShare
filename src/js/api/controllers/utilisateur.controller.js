@@ -18,7 +18,7 @@ exports.create = (req, res) => {
         adresse: req.body.adresse,
         email: req.body.email,
         telephone: req.body.telephone,
-        motdepasse: req.body.motdepasse
+        motDePasse: req.body.motdepasse
     });
 
     Utilisateur.isMailUsed(utilisateur.email, (err, data) => {
@@ -89,6 +89,8 @@ exports.tryFindUser = (req, res) => {
   }
 };
 
+// UPDATE 
+
 exports.update = (req, res) => {
     // Validate Request
     if (!req.body) {
@@ -96,7 +98,6 @@ exports.update = (req, res) => {
         message: "Content can not be empty!"
         });
     }
-
     Utilisateur.updateById(
         req.params.idUtilisateur,
         new Utilisateur(req.body),
@@ -114,6 +115,33 @@ exports.update = (req, res) => {
           } else res.send(data);
         }
     );
+};
+
+exports.updateRow = (req, res) => {
+  // Validate Request
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+  }
+  Utilisateur.updateRowById(
+    req.params.idUtilisateur,
+    req.params.row,
+    req.body.modif,
+    (err, data) => {
+      if (err) {
+          if (err.kind === "not_found") {
+          res.status(404).send({
+              message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
+          });
+          } else {
+          res.status(500).send({
+              message: "Error updating Utilisateur with id " + req.params.idUtilisateur
+          });
+          }
+      } else res.send(data);
+    }
+);
 };
 
 exports.deleteById = (req, res) => {

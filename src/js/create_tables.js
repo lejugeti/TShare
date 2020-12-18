@@ -21,9 +21,10 @@ con.connect(function(err){
         dateDeNaissance DATETIME NOT NULL,\
         adresse VARCHAR(100),\
         email VARCHAR(100) NOT NULL,\
-        telephone INT,\
-        motdepasse VARCHAR(100) NOT NULL\
-    );";
+        telephone VARCHAR(20),\
+        motDePasse VARCHAR(100) NOT NULL,\
+        description VARCHAR(1000)\
+    )";
 
     con.query(req, function(err, result){
         if(err) throw err;

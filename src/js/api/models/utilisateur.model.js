@@ -11,7 +11,7 @@ const Utilisateur = function(utilisateur){
     this.adresse = utilisateur.adresse,
     this.email = utilisateur.email,
     this.telephone = utilisateur.telephone,
-    this.motdepasse = utilisateur.motdepasse
+    this.motDePasse = utilisateur.motDePasse
 };
 
 Utilisateur.create = (newUtilisateur, result) => {
@@ -27,7 +27,7 @@ Utilisateur.create = (newUtilisateur, result) => {
 };
 
 Utilisateur.getAll = result => {
-    sql.query("SELECT nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur", (err, res) => {
+    sql.query("SELECT nom, prenom, genre, dateDeNaissance, adresse, email, telephone, descritption FROM Utilisateur", (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -52,7 +52,7 @@ Utilisateur.isMailUsed = (email, result) => {
 };
 
 Utilisateur.findById = (id, result) => {
-    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {
+    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone, description FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -69,8 +69,8 @@ Utilisateur.findById = (id, result) => {
     })
 };
 
-Utilisateur.userExist = (email, motdepasse, result) =>{
-    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone FROM Utilisateur WHERE email=? AND motdepasse=?", [email, motdepasse], (err,res) => {
+Utilisateur.userExist = (email, motDePasse, result) =>{
+    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone, description FROM Utilisateur WHERE email=? AND motDePasse=?", [email, motDePasse], (err,res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);
@@ -83,11 +83,14 @@ Utilisateur.userExist = (email, motdepasse, result) =>{
         }
         result({kind: "not_exist"}, null);
     })
-}
+};
+
+
+// UPDATE
 
 Utilisateur.updateById = (id, utilisateur, result) => {
-    sql.query("UPDATE Utilisateur SET genre=?, nom=?, prenom=?, dateDeNaissance=?, adresse=?, email=?, telephone=?, motdepasse=? WHERE idUtilisateur=?",
-             [utilisateur.genre, utilisateur.nom, utilisateur.prenom, utilisateur.dateDeNaissance, utilisateur.adresse, utilisateur.email, utilisateur.telephone, utilisateur.motdepasse, id], 
+    sql.query("UPDATE Utilisateur SET genre=?, nom=?, prenom=?, dateDeNaissance=?, adresse=?, email=?, telephone=?, motDePasse=?, description=? WHERE idUtilisateur=?",
+             [utilisateur.genre, utilisateur.nom, utilisateur.prenom, utilisateur.dateDeNaissance, utilisateur.adresse, utilisateur.email, utilisateur.telephone, utilisateur.motDePasse, description,id], 
              (err, res) => {
                 if(err){
                     console.log("error: ", err);
@@ -106,6 +109,53 @@ Utilisateur.updateById = (id, utilisateur, result) => {
             }
     );
 };
+
+Utilisateur.updateRowById = (id, row, modif, result) => {
+    var query = "UPDATE utilisateur SET ";
+    switch(row){
+        case "nom":
+            query += "nom";
+            break;
+        case "prenom":
+            query += "prenom";
+            break;
+        case "dateDeNaissance":
+            query += "dateDeNaissance";
+            break;
+        case "sexe":
+            query += "genre";
+            break;
+        case "telephone":
+            query += "telephone";
+            break;
+        case "adresse":
+            query += "adresse";
+            break;
+        default:
+            console.log("row_does_not_exit: ", {row: row});
+            result({kind: "row_does_not_exit"}, null);
+            return;
+    }
+    query += " = ? WHERE idUtilisateur = ? ";
+    sql.query(query, [modif, id], (err, res) => {
+        if(err){
+            console.log("error: ",err);
+            result(err, null);
+            return;
+        }
+
+        if(res.affectedRows == 0){
+            result({kind: "not_found"}, null);
+            return;
+        }
+
+        console.log("update Utilisateur:", {idUtilisateur: id, row: row, modif, modif});
+        result(null, {idUtilisateur: id, row: row, modif, modif});
+    });
+};
+
+
+// DELETE
 
 Utilisateur.remove = (id, result) => {
     sql.query("DELETE FROM Utilisateur WHERE idUtilisateur = ?", id, (err, res) => {

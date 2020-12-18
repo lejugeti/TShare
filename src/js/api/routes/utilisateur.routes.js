@@ -1,4 +1,4 @@
-module.exports = app => {
+module.exports = (app) => {
     const utilisateur = require("../controllers/utilisateur.controller.js");
 
     app.post("/utilisateur", utilisateur.create);
@@ -10,6 +10,8 @@ module.exports = app => {
     app.get("/utilisateur/:idUtilisateur", utilisateur.getById);
 
     app.put("/utilisateur/:idUtilisateur", utilisateur.update);
+
+    app.put("/utilisateur/:idUtilisateur/:row", utilisateur.updateRow);
 
     app.delete("/utilisateur", utilisateur.deleteAll);
 

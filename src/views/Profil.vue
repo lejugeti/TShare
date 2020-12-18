@@ -34,13 +34,13 @@
         <div class="section" v-if="selected === 4" >
           <div class="perso-section">
             <div>
-              <persoInfoLine title="Nom" content="nono"/>
-              <persoInfoLine title="Prenom" content="momo"/>
-              <persoInfoLine title="Sexe" content="Masculin"/>
-              <persoInfoLine title="Date de naissance" content="12/10/1000"/>
-              <persoInfoLine title="Adresse" content="16 Avenue Foch, Bat B, Appt 190, 87000 LIMOGES" />
-              <persoInfoLine title="Téléphone" content="0677354776" />
-              <persoInfoLine title="Mail" content="paullorgue@gmail.com" />
+              <persoInfoLine title="Nom" :content="nom"/>
+              <persoInfoLine title="Prenom" :content="prenom"/>
+              <persoInfoLine title="Sexe" :content="genre"/>
+              <persoInfoLine title="Date de naissance" :content="dateDeNaissance"/>
+              <persoInfoLine title="Adresse" :content="adresse" />
+              <persoInfoLine title="Téléphone" :content="tel" />
+              <persoInfoLine title="Mail" :content="email" />
               <div class="modify-pwd-container">
                 <b-button variant="outline-primary">Modifier mot de passe</b-button>
               </div>
@@ -76,7 +76,15 @@ export default {
       ],
       commentsSent: [
         { utilisateur: 'momo', note_donnée: 5, commentaire: 'Noice', date: '10/12/2020' }
-      ]
+      ],
+      nom: '',
+      prenom: '',
+      genre: '',
+      dateDeNaissance: '',
+      email: '',
+      tel: '',
+      adresse: '',
+      description: ''
     }
   },
   methods: {
@@ -84,6 +92,26 @@ export default {
       console.log(selection)
       this.selected = selection
     }
+  },
+  mounted: function () {
+    fetch('http://localhost:3000/utilisateur/' + this.$store.state.idUtilisateur, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        this.nom = json.nom
+        this.prenom = json.prenom
+        this.tel = json.telephone
+        var date = new Date(json.dateDeNaissance)
+        this.dateDeNaissance = date.toLocaleDateString()
+        this.adresse = json.adresse
+        this.email = json.email
+        this.description = json.description
+        this.genre = json.genre
+      })
+      .catch(err => console.log(err))
   }
 }
 </script>

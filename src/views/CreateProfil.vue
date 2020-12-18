@@ -212,7 +212,6 @@ export default {
   methods: {
     onSubmit (evt) {
       evt.preventDefault()
-      console.log(JSON.stringify(this.nouveauProfil))
       var jsonData = JSON.stringify(this.nouveauProfil)
       fetch('http://localhost:3000/utilisateur/', {
         method: 'POST',

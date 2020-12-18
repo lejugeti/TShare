@@ -3,7 +3,7 @@
     <div class="description">
       <div class="content-text">
         <p style="font-weight: bold">{{ title }}</p>
-        <p>{{ content }}</p>
+        <p>{{ valeur }}</p>
       </div>
       <div>
         <b-button variant="outline-primary" size="sm" class="btn_modify" @click="showModidifyForm = true">Modifier</b-button>
@@ -39,7 +39,7 @@
       <b-form class="form-general" inline v-else>
         <b-form-datepicker
           class="margin-right"
-          v-model="dateFromPicker"
+          v-model="modification"
           size="sm"
           v-if="title === 'Date de naissance'"
         ></b-form-datepicker>
@@ -47,13 +47,13 @@
         <b-form-group
           v-else-if="title === 'Sexe'"
           ><b-form-radio-group
-            v-model="sexePicker"
+            v-model="modification"
             :options="['Masculin', 'Féminin', 'Non défini']"
           ></b-form-radio-group>
         </b-form-group>
 
         <b-form-input
-          id="inline-form-input-name"
+          v-model="modification"
           class="mb-2 mr-sm-2 mb-sm-0"
           :placeholder="'Nouveau numéro'"
           size="sm"
@@ -62,7 +62,7 @@
         ></b-form-input>
 
         <b-form-input
-          id="inline-form-input-name"
+          v-model="modification"
           class="mb-2 mr-sm-2 mb-sm-0"
           :placeholder="'Nouveau ' + title.toLowerCase()"
           size="sm"
@@ -70,7 +70,7 @@
         ></b-form-input>
 
         <b-form-input
-          id="inline-form-input-name"
+          v-model="modification"
           class="mb-2 mr-sm-2 mb-sm-0"
           placeholder="Mot de passe"
           size="sm"
@@ -78,8 +78,9 @@
           v-if="title === 'Mail'"
         ></b-form-input>
 
-        <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModidifyForm = false">Annuler</b-button>
-        <b-button size="sm" type="submit" variant="primary">Enregistrer</b-button>
+        <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModidifyForm = false" v-if="!saving">Annuler</b-button>
+        <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button>
+        <b-icon icon="arrow-clockwise" animation="spin" font-scale="2" v-if="saving"></b-icon>
       </b-form>
     </div>
     <div class="line"></div>
@@ -95,8 +96,47 @@ export default {
   data () {
     return {
       showModidifyForm: false,
-      dateFromPicker: '',
-      sexePicker: ''
+      modification: '',
+      valeur: this.content,
+      saving: false
+    }
+  },
+  methods: {
+    getType () {
+      var type = this.title.toLowerCase().replace('é', 'e').replace('é', 'e')
+      if (type.indexOf(' ') === -1) {
+        return type
+      } else {
+        while (type.indexOf(' ') !== -1) {
+          var i = type.indexOf(' ')
+          type = type.slice(0, i) + type.charAt(i + 1).toUpperCase() + type.slice(i + 2)
+        }
+        return type
+      }
+    },
+    update () {
+      if (this.modification.length !== 0) {
+        this.saving = true
+        var type = this.getType()
+        var jsonData = '{"modif":"' + this.modification + '"}'
+        fetch('http://localhost:3000/utilisateur/' + this.$store.state.idUtilisateur + '/' + type, {
+          method: 'PUT',
+          body: jsonData,
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Content-Length': jsonData.length
+          }
+        }).then(response => response.json())
+          .then(json => {
+            if (json.idUtilisateur !== undefined) {
+              this.showModidifyForm = false
+              this.valeur = json.modif
+              this.modification = ''
+              this.saving = false
+            }
+          })
+          .catch(err => console.log(err))
+      }
     }
   }
 }
@@ -144,7 +184,7 @@ export default {
 }
 .button-form-adress{
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin: 0 0 10px 0;
 }
 .line {
