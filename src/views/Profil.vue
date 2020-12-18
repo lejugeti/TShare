@@ -87,12 +87,6 @@ export default {
       description: ''
     }
   },
-  methods: {
-    changeSelection (selection) {
-      console.log(selection)
-      this.selected = selection
-    }
-  },
   mounted: function () {
     fetch('http://localhost:3000/utilisateur/' + this.$store.state.idUtilisateur, {
       method: 'GET',

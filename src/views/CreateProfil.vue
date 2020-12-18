@@ -35,9 +35,9 @@
           label="Genre:"
           label-cols-lg="3">
           <b-form-radio-group v-model="nouveauProfil.genre" required >
-            <b-form-radio value="femme">Féminin</b-form-radio>
-            <b-form-radio value="homme">Masculin</b-form-radio>
-            <b-form-radio value="autre">Non défini</b-form-radio>
+            <b-form-radio value="Féminin">Féminin</b-form-radio>
+            <b-form-radio value="Masculin">Masculin</b-form-radio>
+            <b-form-radio value="Non défini">Non défini</b-form-radio>
           </b-form-radio-group>
         </b-form-group>
 
@@ -227,7 +227,6 @@ export default {
               idUt: json.idUtilisateur.toString(),
               nom: this.nouveauProfil.prenom + ' ' + this.nouveauProfil.nom
             }
-            console.log(infoConnection.nom)
             this.$store.commit('connected', infoConnection)
             this.$router.go(-1)
           } else if (json.message === 'Email address already used') {

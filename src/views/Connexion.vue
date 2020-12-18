@@ -66,7 +66,6 @@ export default {
         method: 'GET'
       }).then(response => response.json())
         .then(json => {
-          console.log(json)
           if (typeof json.idUtilisateur !== 'undefined') {
             const infoConnection = {
               idUt: json.idUtilisateur.toString(),

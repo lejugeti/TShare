@@ -59,6 +59,9 @@ export default {
   methods: {
     onLogOut () {
       this.$store.commit('disconnected')
+      if (this.$router.currentRoute.path !== '/') {
+        this.$router.push('/')
+      }
     }
   }
 }
