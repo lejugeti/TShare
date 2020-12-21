@@ -21,8 +21,18 @@
           </div>
           <div class="description-section">
             <h3>Description</h3>
-            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Inventore quaerat, soluta necessitatibus ratione corporis exercitationem quasi repellat incidunt sequi. Praesentium officia consequuntur excepturi consequatur neque doloremque deserunt enim repudiandae quis!</p>
-            <b-button variant="outline-primary" size="sm">Modifier</b-button>
+            <div v-if="!isDescEdit">
+              <p class="profil-description" >{{ desc }}</p>
+              <b-button variant="outline-primary" size="sm" @click="isDescEdit = isDescEdit?false:true">Modifier</b-button>
+            </div>
+            <div v-else>
+              <b-form-textarea max-rows="12" class="profil-description" v-model="description"></b-form-textarea>
+              <div>
+                <b-button class="margin-right" variant="secondary" size="sm" @click="onClickAnnuler" v-if="!saving">Annuler</b-button>
+                <b-button variant="primary" size="sm" @click="onClickEnregistrer" v-if="!saving">Enregistrer</b-button>
+                <b-icon icon="arrow-clockwise" animation="spin" font-scale="2" v-if="saving"></b-icon>
+              </div>
+            </div>
           </div>
         </div>
         <div class="section" v-if="selected === 2" >
@@ -84,7 +94,10 @@ export default {
       email: '',
       tel: '',
       adresse: '',
-      description: ''
+      description: '',
+      desc: '',
+      saving: false,
+      isDescEdit: 'false'
     }
   },
   mounted: function () {
@@ -102,10 +115,36 @@ export default {
         this.dateDeNaissance = date.toLocaleDateString()
         this.adresse = json.adresse
         this.email = json.email
-        this.description = json.description
+        this.desc = json.description
         this.genre = json.genre
       })
       .catch(err => console.log(err))
+  },
+  methods: {
+    onClickEnregistrer () {
+      var jsonData = '{"modif":"' + this.description + '"}'
+      console.log(jsonData)
+      fetch('http://localhost:3000/utilisateur/' + this.$store.state.idUtilisateur + '/description', {
+        method: 'PUT',
+        body: jsonData,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Length': jsonData.length
+        }
+      }).then(response => response.json())
+        .then(json => {
+          if (json.idUtilisateur !== undefined) {
+            this.saving = false
+            this.desc = this.description
+            this.isDescEdit = false
+          }
+        })
+        .catch(err => console.log(err))
+    },
+    onClickAnnuler () {
+      this.description = this.desc
+      this.isDescEdit = false
+    }
   }
 }
 </script>
@@ -154,6 +193,7 @@ export default {
   justify-content: space-around;
 }
 .description-section{
+  width: 100%;
   text-align: left;
   padding-left: 60px;
   padding-top: 30px;
@@ -172,10 +212,19 @@ export default {
   display: flex;
   justify-content: left;
 }
+.profil-description{
+  width: 100%;
+  height: auto;
+  text-align: justify;
+  margin-bottom: 12px;
+}
 .fausse-image{
   height: 230px;
   width: 230px;
   background-color: silver;
+}
+.margin-right{
+  margin-right: 6px;
 }
 </style>
 

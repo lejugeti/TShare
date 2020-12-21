@@ -1,3 +1,4 @@
+const { BBreadcrumbLink } = require('bootstrap-vue');
 const sql = require('../../db.js');
 
 // constructeur
@@ -148,6 +149,9 @@ Utilisateur.updateRowById = (id, row, modif, result) => {
             break;
         case "email":
             query += "email";
+            break;
+        case "description":
+            query += "description";
             break;
         default:
             console.log("row_does_not_exit: ", {row: row});
