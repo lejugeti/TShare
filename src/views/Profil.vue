@@ -40,7 +40,7 @@
               <persoInfoLine title="Date de naissance" :content="dateDeNaissance"/>
               <persoInfoLine title="Adresse" :content="adresse" />
               <persoInfoLine title="Téléphone" :content="tel" />
-              <persoInfoLine title="Mail" :content="email" />
+              <persoInfoLine title="Email" :content="email" />
               <div class="modify-pwd-container">
                 <b-button variant="outline-primary">Modifier mot de passe</b-button>
               </div>

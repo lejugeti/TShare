@@ -6,33 +6,37 @@
         <p>{{ valeur }}</p>
       </div>
       <div>
-        <b-button variant="outline-primary" size="sm" class="btn_modify" @click="showModidifyForm = true">Modifier</b-button>
+        <b-button variant="outline-primary" size="sm" class="btn_modify" @click="showModificationForm = true">Modifier</b-button>
       </div>
     </div>
-    <div class="modif" v-if="showModidifyForm">
+    <div class="modif" v-if="showModificationForm">
       <b-form class="form-adress" v-if="title === 'Adresse'">
         <b-form-input
           placeholder="Ligne 1"
+          v-model="adressLine1"
           size="sm"
         ></b-form-input>
         <b-form-input
           placeholder="Ligne 2"
+          v-model="adressLine2"
           size="sm"
         ></b-form-input>
         <div class="inline-input-form">
           <b-form-input
             placeholder="Code postale"
+          v-model="adressLine3"
             size="sm"
             class="margin-right"
           ></b-form-input>
           <b-form-input
             placeholder="Ville"
+          v-model="adressLine4"
             size="sm"
           ></b-form-input>
         </div>
         <div class="button-form-adress">
-          <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModidifyForm = false">Annuler</b-button>
-          <b-button size="sm" type="submit" variant="primary">Enregistrer</b-button>
+          <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false">Annuler</b-button>
+           <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button>
         </div>
       </b-form>
 
@@ -70,15 +74,16 @@
         ></b-form-input>
 
         <b-form-input
-          v-model="modification"
+          v-model="pwd"
           class="mb-2 mr-sm-2 mb-sm-0"
           placeholder="Mot de passe"
           size="sm"
           type="password"
-          v-if="title === 'Mail'"
+          v-if="title === 'Email'"
+          :state="pwdState"
         ></b-form-input>
 
-        <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModidifyForm = false" v-if="!saving">Annuler</b-button>
+        <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false" v-if="!saving">Annuler</b-button>
         <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button>
         <b-icon icon="arrow-clockwise" animation="spin" font-scale="2" v-if="saving"></b-icon>
       </b-form>
@@ -95,10 +100,16 @@ export default {
   },
   data () {
     return {
-      showModidifyForm: false,
+      showModificationForm: false,
+      adressLine1: '',
+      adressLine2: '',
+      adressLine3: '',
+      adressLine4: '',
       modification: '',
       valeur: this.content,
-      saving: false
+      saving: false,
+      pwd: '',
+      pwdState: null
     }
   },
   methods: {
@@ -115,10 +126,20 @@ export default {
       }
     },
     update () {
+      if (this.title === 'Adresse') {
+        this.modification = this.adressLine1 + ', ' + this.adressLine2 + ', ' + this.adressLine3 + ' ' + this.adressLine4
+      }
+
       if (this.modification.length !== 0) {
         this.saving = true
         var type = this.getType()
-        var jsonData = '{"modif":"' + this.modification + '"}'
+
+        var jsonData = '{"modif":"' + this.modification
+        if (type === 'email') {
+          jsonData = jsonData + '","mdp":"' + this.pwd
+        }
+        jsonData = jsonData + '"}'
+
         fetch('http://localhost:3000/utilisateur/' + this.$store.state.idUtilisateur + '/' + type, {
           method: 'PUT',
           body: jsonData,
@@ -129,9 +150,18 @@ export default {
         }).then(response => response.json())
           .then(json => {
             if (json.idUtilisateur !== undefined) {
-              this.showModidifyForm = false
+              this.showModificationForm = false
               this.valeur = json.modif
               this.modification = ''
+              this.adressLine1 = ''
+              this.adressLine2 = ''
+              this.adressLine3 = ''
+              this.adressLine4 = ''
+              this.pwd = ''
+              this.saving = false
+              this.pwdState = null
+            } else if (json.message === 'Invalid information') {
+              this.pwdState = false
               this.saving = false
             }
           })

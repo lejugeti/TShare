@@ -74,7 +74,7 @@ exports.tryFindUser = (req, res) => {
     });
   }
   else{
-    Utilisateur.userExist(req.query.email, req.query.motdepasse, (err, data) => {
+    Utilisateur.userExistWithEmail(req.query.email, req.query.motdepasse, (err, data) => {
       if(err){
         if(err.kind === "not_exist")
           res.send({
@@ -124,24 +124,56 @@ exports.updateRow = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-  Utilisateur.updateRowById(
-    req.params.idUtilisateur,
-    req.params.row,
-    req.body.modif,
-    (err, data) => {
-      if (err) {
-          if (err.kind === "not_found") {
-          res.status(404).send({
-              message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
+
+  if(req.params.row === "email"){
+    
+    Utilisateur.userExistWithId(req.params.idUtilisateur,req.body.mdp, (err, data) => {
+      if(err){
+        if(err.kind === "not_exist")
+          res.send({
+            message: "Invalid information"
           });
-          } else {
+        else
           res.status(500).send({
-              message: "Error updating Utilisateur with id " + req.params.idUtilisateur
+            message: "Error searching profil for connexion with email " + req.query.email
           });
-          }
-      } else res.send(data);
-    }
-);
+      } else {
+        Utilisateur.updateRowById(
+          req.params.idUtilisateur,
+          req.params.row,
+          req.body.modif,
+          (err, data) => {
+            if (err) {
+              if (err.kind === "not_found")
+                res.status(404).send({
+                  message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
+                });
+              else
+                res.status(500).send({
+                  message: "Error updating Utilisateur with id " + req.params.idUtilisateur
+                });
+            } else res.send(data);
+          });
+      }
+    });
+  } else {
+    Utilisateur.updateRowById(
+      req.params.idUtilisateur,
+      req.params.row,
+      req.body.modif,
+      (err, data) => {
+        if (err) {
+          if (err.kind === "not_found")
+            res.status(404).send({
+              message: `Not found Utilisateur with id ${req.params.idUtilisateur}.`
+            });
+          else
+            res.status(500).send({
+              message: "Error updating Utilisateur with id " + req.params.idUtilisateur
+            });
+        } else res.send(data);
+      });
+  }
 };
 
 exports.deleteById = (req, res) => {

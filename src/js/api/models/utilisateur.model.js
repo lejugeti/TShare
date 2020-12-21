@@ -69,7 +69,7 @@ Utilisateur.findById = (id, result) => {
     })
 };
 
-Utilisateur.userExist = (email, motDePasse, result) =>{
+Utilisateur.userExistWithEmail = (email, motDePasse, result) =>{
     sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone, description FROM Utilisateur WHERE email=? AND motDePasse=?", [email, motDePasse], (err,res) => {
         if(err){
             console.log("error : ", err);
@@ -85,6 +85,21 @@ Utilisateur.userExist = (email, motDePasse, result) =>{
     })
 };
 
+Utilisateur.userExistWithId = (id, motDePasse, result) =>{
+    sql.query("SELECT idUtilisateur, nom, prenom, genre, dateDeNaissance, adresse, email, telephone, description FROM Utilisateur WHERE idUtilisateur=? AND motDePasse=?", [id, motDePasse], (err,res) => {
+        if(err){
+            console.log("error : ", err);
+            result(err, null);
+            return
+        }
+        if(res.length){
+            console.log("found utilisateur", res[0]);
+            result(null, res[0]);
+            return
+        }
+        result({kind: "not_exist"}, null);
+    })
+};
 
 // UPDATE
 
@@ -131,6 +146,9 @@ Utilisateur.updateRowById = (id, row, modif, result) => {
         case "adresse":
             query += "adresse";
             break;
+        case "email":
+            query += "email";
+            break;
         default:
             console.log("row_does_not_exit: ", {row: row});
             result({kind: "row_does_not_exit"}, null);
@@ -149,9 +167,10 @@ Utilisateur.updateRowById = (id, row, modif, result) => {
             return;
         }
 
-        console.log("update Utilisateur:", {idUtilisateur: id, row: row, modif, modif});
-        result(null, {idUtilisateur: id, row: row, modif, modif});
+        console.log("update Utilisateur:", {idUtilisateur: id, row: row, modif: modif});
+        result(null, {idUtilisateur: id, row: row, modif: modif});
     });
+
 };
 
 
