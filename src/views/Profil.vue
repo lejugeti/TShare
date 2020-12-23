@@ -16,7 +16,7 @@
               <div class="fausse-image">
               </div>
               <b-button variant="outline-primary" size="sm">Changer photo de profil</b-button>
-              <p><b-icon icon="star-fill"></b-icon> {{ nbView }} avis</p>
+              <p><b-icon icon="star-fill"></b-icon> {{ noteMoy }} / 5 ({{ nbComment }} avis)</p>
             </div>
           </div>
           <div class="description-section">
@@ -80,13 +80,9 @@ export default {
   data () {
     return {
       selected: 1,
-      nbView: 5,
-      commentsReceive: [
-        { utilisateur: 'momo', note_reçue: 5, commentaire: 'Noice', date: '10/12/2020' }
-      ],
-      commentsSent: [
-        { utilisateur: 'momo', note_donnée: 5, commentaire: 'Noice', date: '10/12/2020' }
-      ],
+      nbComment: 0,
+      commentsReceive: [],
+      commentsSent: [],
       nom: '',
       prenom: '',
       genre: '',
@@ -97,7 +93,10 @@ export default {
       description: '',
       desc: '',
       saving: false,
-      isDescEdit: 'false'
+      isDescEdit: false,
+      noteReçu: '',
+      noteEnvoye: '',
+      noteMoy: 3.5
     }
   },
   mounted: function () {
@@ -116,7 +115,31 @@ export default {
         this.adresse = json.adresse
         this.email = json.email
         this.desc = json.description
+        this.description = this.desc
         this.genre = json.genre
+      })
+      .catch(err => console.log(err))
+
+    fetch('http://localhost:3000/note/sended/' + this.$store.state.idUtilisateur, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        this.commentsSent = this.formatDate(json)
+      })
+      .catch(err => console.log(err))
+
+    fetch('http://localhost:3000/note/received/' + this.$store.state.idUtilisateur, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8'
+      }
+    }).then(response => response.json())
+      .then(json => {
+        this.commentsReceive = this.formatDate(json)
+        this.getNoteMoyenne(json)
       })
       .catch(err => console.log(err))
   },
@@ -144,6 +167,22 @@ export default {
     onClickAnnuler () {
       this.description = this.desc
       this.isDescEdit = false
+    },
+    formatDate (comments) {
+      for (let i = 0; i < comments.length; i++) {
+        const date = new Date(comments[i].Date)
+        comments[i].Date = date.toLocaleDateString()
+      }
+      return comments
+    },
+    getNoteMoyenne (comments) {
+      var len = comments.length
+      var sum = 0
+      for (let i = 0; i < len; i++) {
+        sum += comments[i].Note
+      }
+      this.noteMoy = sum / len
+      this.nbComment = len
     }
   }
 }

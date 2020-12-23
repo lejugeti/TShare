@@ -1,4 +1,5 @@
-const Note = require("../models/note.model.js");
+
+const Note = require("../models/note.model.js");
 
 // Create and Save a new Note
 exports.create = (req, res) => {
@@ -46,18 +47,47 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   Note.findById(req.params.noteId, (err, data) => {
     if (err) {
-      if (err.kind === "not_found") {
+      if (err.kind === "not_found") 
         res.status(404).send({
           message: `Not found Note with id ${req.params.noteId}.`
         });
-      } else {
+       else 
         res.status(500).send({
           message: "Error retrieving Note with id " + req.params.noteId
         });
-      }
     } else res.send(data);
   });
 };
+
+exports.findSendedBy = (req, res) => {
+  Note.findSended(req.params.idUtilisateur, (err,data) => {
+    if(err) {
+      if (err.kind === "not_found") 
+        res.status(404).send({
+          message: `Not fond Utilisateur with id ${req.params.idUtilisateur}.`
+        });
+       else 
+        res.status(500).send({
+          message: `Error retrieving Utilisateur with id ${req.params.idUtilisateur}.`
+        });
+    } else res.send(data);
+  })
+}
+
+exports.findReceivedBy = (req, res) => {
+  Note.findReceived(req.params.idUtilisateur, (err,data) => {
+    if(err) {
+      if (err.kind === "not_found") 
+        res.status(404).send({
+          message: `Not fond Utilisateur with id ${req.params.idUtilisateur}.`
+        });
+       else 
+        res.status(500).send({
+          message: `Error retrieving Utilisateur with id ${req.params.idUtilisateur}.`
+        });
+    } else res.send(data);
+  })
+}
 
 // Update a Note identified by the noteId in the request
 exports.update = (req, res) => {

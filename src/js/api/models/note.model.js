@@ -54,6 +54,32 @@ Note.findById = (id, result) => {
   });
 };
 
+Note.findReceived = (id,result) => {
+  sql.query("SELECT (SELECT CONCAT(prenom,' ',nom) FROM utilisateur WHERE idUtilisateur = idEmetteur) as 'Emetteur', note as 'Note', commentaire as 'Commentaire', dateNote as 'Date' FROM notes WHERE idRecepteur = ?", id, (err,res) => {
+    if(err){
+      console.log("error: ",err);
+      result(err, null);
+      return;
+    }
+
+    console.log("found notes", res);
+    result(null,res);
+
+  });
+}
+Note.findSended = (id,result) => {
+  sql.query("SELECT (SELECT CONCAT(prenom,' ',nom) FROM utilisateur WHERE idUtilisateur = idRecepteur) as 'Recepteur', note as 'Note', commentaire as 'Commentaire', dateNote as 'Date' FROM notes WHERE idEmetteur = ?", id, (err,res) => {
+    if(err){
+      console.log("error: ",err);
+      result(err, null);
+      return;
+    }
+
+    console.log("found notes", res);
+    result(null,res);
+  });
+}
+
 Note.updateById = (id, note, result) => {
   sql.query(
     "UPDATE Notes SET idRecepteur = ?, idEmetteur = ?, note = ?, commentaire = ?, dateNote = ? WHERE idNote = ?",
