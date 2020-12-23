@@ -34,6 +34,7 @@
                                 required
                             ></b-form-input>  
                         </b-form-group>
+                        <b-calendar :click="changeDate"/>
                     </b-col>
                     
                     <!-- COLONNE MILIEU -->
@@ -57,12 +58,13 @@
                                 <label for="inputMarque">Marque : </label>
                             </b-col>
                             <b-col>
-                                <b-form-input 
+                                <b-form-select 
                                 id="inputMarque"
                                 v-model="form.marque"
+                                :options="marques"
                                 required
                                 >
-                                </b-form-input>
+                                </b-form-select>
                             </b-col>
                         </b-row>   
                         <b-row id="inputGroupCaution" class="input-row">
@@ -72,6 +74,7 @@
                             <b-col>
                                 <b-form-input 
                                 id="inputCaution"
+                                type="number"
                                 v-model="form.caution"
                                 required
                                 >
@@ -105,20 +108,28 @@
                                 >
                                 </b-form-select>
                             </b-col>
-                        </b-row>                   
+                        </b-row>
+                        <b-form-file
+                        id="fileUpload"
+                        type="file"
+                        ref="file"
+                        v-model= "file"
+                        >
+                        </b-form-file>
+                                       
                     </b-col>
 
                      <!-- COLONNE DROITE -->
                     <b-col id="colonneDroite" class="colonne-page" cols="4">
                         <b-row class="input-row">
                             <b-col cols="3">
-                                <label id="label-select-categories" for="select-categories">
-                                    Catégorie : 
+                                <label id="label-select-type" for="select-type">
+                                    Type : 
                                 </label>
                             </b-col>
                             <b-col>
                                 <b-form-select
-                                    id="select-categories"
+                                    id="select-type"
                                     v-model="form.idType"
                                     :options="types"
                                     required
@@ -151,6 +162,21 @@
                                     id="select-type"
                                     v-model="form.genre"
                                     :options="genre"
+                                    required
+                                ></b-form-select>
+                            </b-col>
+                        </b-row>
+                        <b-row class="input-row">
+                            <b-col cols="3">
+                                <label id="label-select-categorie" for="select-categorie">
+                                    Catégorie : 
+                                </label>
+                            </b-col>
+                            <b-col>
+                                <b-form-select
+                                    id="select-categorie"
+                                    v-model="form.categorie"
+                                    :options="categories"
                                     required
                                 ></b-form-select>
                             </b-col>
@@ -233,7 +259,7 @@
             </b-container>
         </b-form>
         <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ types }}</pre>
+            <pre class="m-0">{{ form.photo }}</pre>
         </b-card>
     </body>
 </template>
@@ -248,19 +274,18 @@ export default {
         return {
             form:{
                 idProprietaire: 1,
-                titre:"bonjour",
-                marque:"lacoste",
-                description:"test test",
-                pathImage:"image.jpg",
+                titre: null,
+                marque: null,
+                description:null,
                 dateDebutDispo:"10-10-2020",
                 dateFinDispo:"10-10-2020",
-                caution: 10,
-                conditionEnvoi:"Tout beau tout propre",
-                conditionRetour:"Tout beau tout propre",
-                idType: 2,
-                etat: "Neuf",
-                taille: "M",
-                genre: "Masculin",
+                caution: null,
+                conditionEnvoi:null,
+                conditionRetour:null,
+                idType: null,
+                etat: null,
+                taille: null,
+                genre: null,
                 checkPrixJour:false,
                 checkPrixSemaine:false,
                 checkPrixMois:false,
@@ -268,22 +293,26 @@ export default {
                 prixSemaine: 10,
                 prixMois: 10,
                 prix: 10,
-                vetementEnfant: false,
-                photo: "./photo.jpg",
                 disponible: 1,
-                categorie: "Adulte"
+                categorie: null,
+                photo: null
+                
             },
+            file: null,
             types: [{text:"--- Choisissez une catégorie ---", value: null}],
             etat: [{text: "--- Choisissez un état ---", value: null}, {text:"Neuf", value: "Neuf"}, {text:"Très bon état", value:"Très bon état"}, {text: "Bon état", value:"Bon état"}, {text:"Moyen", value: "Moyen"}, {text:"Usé", value: "Usé"}, {text: "Mauvais état", value:"Mauvais état"}],
             genre: [{text: "--- Choisissez un type ---", value: null}, {text:"Masculin", value: "Masculin"}, {text:"Féminin", value:"Féminin"}, {text: "Unisexe", value:"Unisexe"}],
             conditionsEnvoi: [{text: "--- Condition d'envoi ---", value: null}, {text:"Tout beau tout propre", value: "Tout beau tout propre"}, {text:"Lavage obligé mamène", value:"Lavage obligé mamène"}, {text: "crado dégueu", value:"crado dégueu"}],
-            tailles: [{text:"--- Choisissez une taille ---", value: null}, {text:"XS", value: "XS"}, {text:"S", value: "S"}, {text:"M", value: "M"}, {text:"L", value: "L"}, {text:"XL", value: "XL"}, {text:"XXL", value: "XXL"}]
-
+            tailles: [{text:"--- Choisissez une taille ---", value: null}, {text:"XS", value: "XS"}, {text:"S", value: "S"}, {text:"M", value: "M"}, {text:"L", value: "L"}, {text:"XL", value: "XL"}, {text:"XXL", value: "XXL"}],
+            categories: [{text: "--- Choisissez une catégorie ---", value: null}, {text: "Adulte", value: "Adulte"}, {text: "Enfant", value: "Enfant"},],
+            marques: [{text: "--- Choisissez une marque ---", value: null}, {text: "Lacoste", value: "Lacoste"}, {text: "Napapijri", value: "Napapijri"},{text: "Autre", value: "Autre"}]
         }
     },
     methods: {
         onSubmit: function(evt){
             evt.preventDefault();
+
+            this.form.photo = "./src/assets/vetements/" + this.file.name;
             console.log(JSON.stringify(this.form));
             var reqData = this.form;
             axios.
@@ -294,6 +323,16 @@ export default {
                     .catch(function(err){
                         console.log(err);
                     });
+            
+            // upload de l'image
+            let formData = new FormData();
+            formData.append("file", this.file);
+            axios.post("http://localhost:3000/upload", formData)
+                .then(console.log(this.file))
+                .catch(err => console.log(err));
+        },
+        changeDate: function(){
+
         }
     },
     mounted(){
