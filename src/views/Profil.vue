@@ -15,7 +15,7 @@
             <div class="picture-section">
               <div class="fausse-image">
               </div>
-              <b-button variant="outline-primary" size="sm">Changer photo de profil</b-button>
+              <buttonPerso variant="outline" content="Changer photo de profil" />
               <p><b-icon icon="star-fill"></b-icon> {{ noteMoy }} / 5 ({{ nbComment }} avis)</p>
             </div>
           </div>
@@ -23,13 +23,13 @@
             <h3>Description</h3>
             <div v-if="!isDescEdit">
               <p class="profil-description" >{{ desc }}</p>
-              <b-button variant="outline-primary" size="sm" @click="isDescEdit = isDescEdit?false:true">Modifier</b-button>
+              <buttonPerso variant="outline" content="Modifier" @click.native="isDescEdit = isDescEdit?false:true"/>
             </div>
             <div v-else>
               <b-form-textarea max-rows="12" class="profil-description" v-model="description"></b-form-textarea>
-              <div>
-                <b-button class="margin-right" variant="secondary" size="sm" @click="onClickAnnuler" v-if="!saving">Annuler</b-button>
-                <b-button variant="primary" size="sm" @click="onClickEnregistrer" v-if="!saving">Enregistrer</b-button>
+              <div style="display: flex">
+                <buttonPerso class="margin-right"  variant="outline" content="Annuler" @click.native="onClickAnnuler" v-if="!saving" />
+                <buttonPerso variant="fill" content="Enregistrer" @click.native="onClickEnregistrer" v-if="!saving" />
                 <b-icon icon="arrow-clockwise" animation="spin" font-scale="2" v-if="saving"></b-icon>
               </div>
             </div>
@@ -52,7 +52,7 @@
               <persoInfoLine title="Téléphone" :content="tel" />
               <persoInfoLine title="Email" :content="email" />
               <div class="modify-pwd-container">
-                <b-button variant="outline-primary">Modifier mot de passe</b-button>
+                <buttonPerso variant="outline" content="Modifier mot de passe" />
               </div>
             </div>
           </div>
@@ -69,13 +69,15 @@
 import greenline from '@/components/GreenLine.vue'
 import buttonSection from '@/components/ProfilSectionButton.vue'
 import persoInfoLine from '@/components/PersoInfoLine.vue'
+import buttonPerso from '@/components/ButtonPerso.vue'
 
 export default {
   name: 'profil',
   components: {
     greenline,
     buttonSection,
-    persoInfoLine
+    persoInfoLine,
+    buttonPerso
   },
   data () {
     return {

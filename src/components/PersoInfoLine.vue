@@ -6,7 +6,8 @@
         <p>{{ valeur }}</p>
       </div>
       <div>
-        <b-button variant="outline-primary" size="sm" class="btn_modify" @click="showModificationForm = true">Modifier</b-button>
+        <buttonPerso variant="outline" content="Modifier" class="btn_modify" @click.native="showModificationForm = true" />
+        <!-- <b-button variant="outline-primary" size="sm" class="btn_modify" @click="showModificationForm = true">Modifier</b-button> -->
       </div>
     </div>
     <div class="modif" v-if="showModificationForm">
@@ -35,8 +36,10 @@
           ></b-form-input>
         </div>
         <div class="button-form-adress">
-          <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false">Annuler</b-button>
-           <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button>
+          <buttonPerso class="margin-right" variant="outline" content="Annuler" @click.native="showModificationForm = false" v-if="!saving"/>
+          <buttonPerso variant="fill" content="Enregistrer" @click.native="update" v-if="!saving"/>
+          <!-- <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false">Annuler</b-button> -->
+          <!-- <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button> -->
         </div>
       </b-form>
 
@@ -83,8 +86,12 @@
           :state="pwdState"
         ></b-form-input>
 
-        <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false" v-if="!saving">Annuler</b-button>
-        <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button>
+        <div style="display: flex">
+          <buttonPerso class="margin-right" variant="outline" content="Annuler" @click.native="showModificationForm = false" v-if="!saving"/>
+          <buttonPerso variant="fill" content="Enregistrer" @click.native="update" v-if="!saving"/>
+        </div>
+        <!-- <b-button class="margin-right" size="sm" type="reset" variant="secondary" @click="showModificationForm = false" v-if="!saving">Annuler</b-button> -->
+        <!-- <b-button size="sm" variant="primary" @click="update()" v-if="!saving">Enregistrer</b-button> -->
         <b-icon icon="arrow-clockwise" animation="spin" font-scale="2" v-if="saving"></b-icon>
       </b-form>
     </div>
@@ -93,6 +100,8 @@
 </template>
 
 <script>
+import buttonPerso from '@/components/ButtonPerso.vue'
+
 export default {
   props: {
     title: String,
@@ -111,6 +120,9 @@ export default {
       pwd: '',
       pwdState: null
     }
+  },
+  components: {
+    buttonPerso
   },
   methods: {
     getType () {
