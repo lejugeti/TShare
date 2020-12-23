@@ -34,7 +34,7 @@
                                 required
                             ></b-form-input>  
                         </b-form-group>
-                        <b-calendar :click="changeDate"/>
+                        <b-calendar @click="changeDateSpan"/>
                     </b-col>
                     
                     <!-- COLONNE MILIEU -->
@@ -277,7 +277,7 @@ export default {
                 titre: null,
                 marque: null,
                 description:null,
-                dateDebutDispo:"10-10-2020",
+                dateDebutDispo:null,
                 dateFinDispo:"10-10-2020",
                 caution: null,
                 conditionEnvoi:null,
@@ -328,11 +328,11 @@ export default {
             let formData = new FormData();
             formData.append("file", this.file);
             axios.post("http://localhost:3000/upload", formData)
-                .then(console.log(this.file))
+                .then(console.log("Upload Success"))
                 .catch(err => console.log(err));
         },
-        changeDate: function(){
-
+        changeDateSpan: function(){
+            
         }
     },
     mounted(){
