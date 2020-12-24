@@ -172,6 +172,11 @@ export default {
               this.pwd = ''
               this.saving = false
               this.pwdState = null
+              if (type === 'nom') {
+                this.$store.commit('setNomUtilisateur', json.modif)
+              } else if (type === 'prenom') {
+                this.$store.commit('setPrenomUtilisateur', json.modif)
+              }
             } else if (json.message === 'Invalid information') {
               this.pwdState = false
               this.saving = false

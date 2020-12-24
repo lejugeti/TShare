@@ -23,7 +23,7 @@
             </router-link>
           </div>
           <div class="nav-btn-container" v-else>
-            <b-nav-item-dropdown :text="'Bonjour, ' + nomUtilisateur " right class="nav-profil">
+            <b-nav-item-dropdown :text="'Bonjour, ' + prenomUtilisateur + ' ' + nomUtilisateur " right class="nav-profil">
               <b-dropdown-item >
                 <span class="nav-item-profil" @click="onLogOut">Déconnexion</span>
               </b-dropdown-item>
@@ -54,6 +54,9 @@ export default {
     },
     nomUtilisateur () {
       return this.$store.state.nomUtilisateur
+    },
+    prenomUtilisateur () {
+      return this.$store.state.prenomUtilisateur
     }
   },
   methods: {

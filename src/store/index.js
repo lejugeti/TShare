@@ -12,16 +12,24 @@ const dataState = createPersistedState({
 export default new Vuex.Store({
   state: {
     idUtilisateur: 0,
-    nomUtilisateur: ''
+    nomUtilisateur: '',
+    prenomUtilisateur: ''
   },
   mutations: {
     connected (state, info) {
       state.idUtilisateur = info.idUt
       state.nomUtilisateur = info.nom
+      state.prenomUtilisateur = info.prenom
     },
     disconnected (state) {
       state.idUtilisateur = 0
       state.nomUtilisateur = ''
+    },
+    setPrenomUtilisateur (state, prenom) {
+      state.prenomUtilisateur = prenom
+    },
+    setNomUtilisateur (state, nom) {
+      state.nomUtilisateur = nom
     }
   },
   actions: {
