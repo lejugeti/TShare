@@ -2,7 +2,7 @@
   <div>
     <greenline title="Connexion"/>
     <div class="form-container">
-      <b-form @submit="onSubmit" v-if="show">
+      <b-form>
         <b-form-group
           id="input-group-1"
           label="Adresse mail:"
@@ -33,9 +33,9 @@
         </b-form-group>
 
         <div class="submit-group">
-          <b-button type="submit" variant="primary">Se connecter</b-button>
+          <router-link class="link" :to="`/`">Mot de passe oublié?</router-link>
+          <buttonPerso variant="fill" content="Se connecter" @click.native="onSubmit"/>
         </div>
-        <router-link :to="`/`">Mot de passe oublié?</router-link>
       </b-form>
     </div>
   </div>
@@ -44,10 +44,12 @@
 
 <script>
 import greenline from '@/components/GreenLine.vue'
+import buttonPerso from '@/components/ButtonPerso.vue'
 
 export default {
   components: {
-    greenline
+    greenline,
+    buttonPerso
   },
   data () {
     return {
@@ -55,13 +57,11 @@ export default {
         email: '',
         motdepasse: ''
       },
-      show: true,
       isInvalid: false
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
+    onSubmit () {
       fetch('http://localhost:3000/utilisateur/mailMdpValide?email=' + this.form.email + '&motdepasse=' + this.form.motdepasse, {
         method: 'GET'
       }).then(response => response.json())
@@ -69,7 +69,8 @@ export default {
           if (typeof json.idUtilisateur !== 'undefined') {
             const infoConnection = {
               idUt: json.idUtilisateur.toString(),
-              nom: json.prenom + ' ' + json.nom
+              nom: json.nom,
+              prenom: json.prenom
             }
             this.$store.commit('connected', infoConnection)
             this.$router.go(-1)
@@ -78,6 +79,11 @@ export default {
           }
         })
         .catch(err => console.log(err))
+    }
+  },
+  mounted: function () {
+    if (this.$store.state.idUtilisateur !== 0) {
+      this.$router.go(-1)
     }
   }
 }
@@ -93,8 +99,15 @@ export default {
 .submit-group{
   width: 100%;
   text-align: right;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .red-text{
   color: red !important;
+}
+.link{
+  color: #98B68A;
+  margin-top: 10px;
 }
 </style>

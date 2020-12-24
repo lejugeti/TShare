@@ -2,7 +2,7 @@
   <div>
     <greenline title="Créer mon compte"/>
     <div class="form-container">
-      <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+      <b-form>
 
         <!-- PRENOM -->
         <b-form-group
@@ -171,7 +171,7 @@
 
         <!-- VALIDATION -->
         <div class="submit-group">
-          <b-button type="submit" variant="primary">Valider</b-button>
+          <buttonPerso variant="fill" content="Valide" @click.native="onSubmit" />
         </div>
 
       </b-form>
@@ -181,10 +181,12 @@
 
 <script>
 import greenline from '@/components/GreenLine.vue'
+import buttonPerso from '@/components/ButtonPerso.vue'
 
 export default {
   components: {
-    greenline
+    greenline,
+    buttonPerso
   },
   data () {
     return {
@@ -205,13 +207,11 @@ export default {
       ligneAdresse1: '',
       ligneAdresse2: '',
       codePostal: '',
-      ville: '',
-      show: true
+      ville: ''
     }
   },
   methods: {
-    onSubmit (evt) {
-      evt.preventDefault()
+    onSubmit () {
       var jsonData = JSON.stringify(this.nouveauProfil)
       fetch('http://localhost:3000/utilisateur/', {
         method: 'POST',
@@ -225,7 +225,8 @@ export default {
           if (typeof json.idUtilisateur !== 'undefined') {
             const infoConnection = {
               idUt: json.idUtilisateur.toString(),
-              nom: this.nouveauProfil.prenom + ' ' + this.nouveauProfil.nom
+              nom: this.nouveauProfil.nom,
+              prenom: this.nouveauProfil.prenom
             }
             this.$store.commit('connected', infoConnection)
             this.$router.go(-1)
@@ -235,23 +236,6 @@ export default {
           }
         })
         .catch(err => console.log(err))
-    },
-    onReset (evt) {
-      evt.preventDefault()
-      // Reset our form values
-      this.form.email = ''
-      this.form.email2 = ''
-      this.form.nom = ''
-      this.form.age = ''
-      this.form.prenom = ''
-      this.form.genre = ''
-      this.form.motdepasse = ''
-      this.form.motdepasse2 = ''
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
     },
     onTextAdressChanged () {
       this.nouveauProfil.adresse = this.ligneAdresse1 + ', ' + (this.ligneAdresse2.length > 0 ? this.ligneAdresse2 + ', ' : '') + this.codePostal + ' ' + this.ville
@@ -292,6 +276,11 @@ export default {
         }
       }
     }
+  },
+  mounted: function () {
+    if (this.$store.state.idUtilisateur !== 0) {
+      this.$router.go(-1)
+    }
   }
 }
 </script>
@@ -303,6 +292,7 @@ export default {
   margin: auto;
   text-align: left;
   padding-top: 30px;
+  padding-bottom: 50px;
 }
 .submit-group{
   width: 100%;
