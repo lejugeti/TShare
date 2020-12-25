@@ -22,7 +22,7 @@
           <div class="description-section">
             <h3>Description</h3>
             <div v-if="!isDescEdit">
-              <p class="profil-description" >{{ desc }}</p>
+              <p class="profil-description" >{{ getDescription }}</p>
               <buttonPerso variant="outline" content="Modifier" @click.native="isDescEdit = isDescEdit?false:true"/>
             </div>
             <div v-else>
@@ -36,10 +36,12 @@
           </div>
         </div>
         <div class="section" v-if="selected === 2" >
-          <b-table class="section-comment" striped hover :items="commentsReceive"></b-table>
+          <p v-if="commentsReceive.length === 0">Personne n'a encore envoyé d'avis sur vous.</p>
+          <b-table v-else class="section-comment" striped hover :items="commentsReceive"></b-table>
         </div>
         <div class="section" v-if="selected === 3" >
-          <b-table class="section-comment" striped hover :items="commentsSent"></b-table>
+          <p v-if="commentsSent.length === 0">Vous n'avais envoyé aucun commentaire</p>
+          <b-table v-else class="section-comment" striped hover :items="commentsSent"></b-table>
         </div>
         <div class="section" v-if="selected === 4" >
           <div class="perso-section">
@@ -179,12 +181,25 @@ export default {
     },
     getNoteMoyenne (comments) {
       var len = comments.length
-      var sum = 0
-      for (let i = 0; i < len; i++) {
-        sum += comments[i].Note
+      if (len > 0) {
+        var sum = 0
+        for (let i = 0; i < len; i++) {
+          sum += comments[i].Note
+        }
+        this.noteMoy = sum / len
+        this.nbComment = len
+      } else {
+        this.noteMoy = '--'
       }
-      this.noteMoy = sum / len
-      this.nbComment = len
+    }
+  },
+  computed: {
+    getDescription () {
+      if (this.desc !== null) {
+        return this.desc
+      } else {
+        return 'Ecrivez quelques lignes pour vous présenter :)'
+      }
     }
   }
 }

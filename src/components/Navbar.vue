@@ -88,7 +88,10 @@ export default {
     margin-left: 16px;
     border-color: #B8D6AA;
   }
-  .nav-item-profil {
-    color: #777;
+  .nav-item-profil{
+    color: #555;
+  }
+  .nav-item-profil:active {
+    color: white;
   }
 </style>
