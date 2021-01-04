@@ -5,11 +5,14 @@
   margin-top: 2%;
 }
 
-#categorie button {
+.styleButton {
   margin-left: 3%;
   margin-right: 3%;
   border-radius: 30px;
   border-color: #b8d6aa;
+}
+
+#categorie .styleButton {
   width: 150px;
 }
 
@@ -20,4 +23,67 @@
 #categorie .collapse {
   background-color: #b8d6aa;
   margin-top: 1%;
+}
+
+#listeCategorie {
+  margin-left: 46%;
+  text-align: left;
+}
+
+#sidebar {
+  float: left;
+  width: 11%;
+  margin-left: 2%;
+  margin-top: 5%;
+  font-size: medium;
+}
+
+#sideTitle {
+  text-align: left;
+  font-weight: bold;
+}
+
+#sidebar .collapse div {
+  margin-top: 1%;
+}
+
+#coll-categorie ul {
+  text-align: left;
+  padding-left: 15%;
+}
+
+#coll-filtre {
+  text-align: left;
+  margin-left: 10%;
+}
+
+#coll-filtre .collapse {
+  margin-left: 10%;
+}
+
+#coll-taille > * {
+  display: flex;
+  flex-direction: column;
+}
+
+#coll-tri {
+  text-align: left;
+  margin-left: 10%;
+}
+
+#datePickerBtn {
+  margin-top: 10%;
+}
+
+#vetements {
+  margin: 5%;
+}
+
+#vetements .card-img-top {
+  height: 200px;
+  object-fit:contain;
+}
+
+#vetements .card-group {
+  margin-bottom: 5%;
 }

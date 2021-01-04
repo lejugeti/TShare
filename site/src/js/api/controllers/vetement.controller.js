@@ -22,6 +22,7 @@ exports.create = (req, res) => {
     prix: req.body.prix,
     conditionRetour: req.body.conditionRetour,
     caution: req.body.caution,
+    couleur: req.body.couleur,
     disponible: req.body.disponible,
     photo: req.body.photo,
     marque: req.body.marque,
@@ -44,6 +45,36 @@ exports.getAll = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "error lors de la récupération des vetements"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getMarques = (req, res) => {
+  Vetement.getMarques((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des marques"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getTailles = (req, res) => {
+  Vetement.getTailles((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des tailles"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getCouleurs = (req, res) => {
+  Vetement.getCouleurs((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des couleurs"
       });
     else res.send(data);
   });

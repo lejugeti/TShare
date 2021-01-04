@@ -9,6 +9,11 @@ app.use(bodyParser.json());
 // parse requests of content-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+  next();
+});
+
 // simple route
 app.get("/", (req, res) => {
 res.json({ message: "C'est chi c'est po c'est chipo" });
