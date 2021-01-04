@@ -13,6 +13,7 @@ exports.create = (req, res) => {
     idVetement: req.body.idVetement,
     idProprietaire: req.body.idProprietaire,
     idType: req.body.idType,
+    titre: req.body.titre,
     dateDebutDispo: req.body.dateDebutDispo,
     dateFinDispo: req.body.dateFinDispo,
     taille: req.body.taille,
@@ -25,7 +26,9 @@ exports.create = (req, res) => {
     disponible: req.body.disponible,
     photo: req.body.photo,
     marque: req.body.marque,
-    categorie: req.body.categorie
+    categorie: req.body.categorie,
+    localisation: req.body.localisation,
+    couleur: req.body.couleur
   });
 
   // Save vetement in the database

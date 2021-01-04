@@ -1,5 +1,4 @@
 // module de connection à la bdd
-
 const mysql = require('mysql');
 const dbConfig = require('../../config/db.config.js');
 

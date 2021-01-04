@@ -1,6 +1,7 @@
 <template>
   <b-navbar toggleable="lg" type="" variant="faded">
     <b-navbar-brand to="/">
+
       <img id="logo" src="./../assets/logo.png" @click="navToDefaultPage"/>
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto text">

@@ -2,10 +2,11 @@ const sql = require("../../db.js");
 
 // constructeur
 
-const Vetement = function (vetement) {
+const Vetement = function(vetement) {
   (this.idVetement = vetement.idVetement),
     (this.idProprietaire = vetement.idProprietaire),
     (this.idType = vetement.idType),
+    (this.titre = vetement.titre),
     (this.dateDebutDispo = vetement.dateDebutDispo),
     (this.dateFinDispo = vetement.dateFinDispo),
     (this.taille = vetement.taille),
@@ -18,7 +19,9 @@ const Vetement = function (vetement) {
     (this.disponible = vetement.disponible),
     (this.photo = vetement.photo),
     (this.marque = vetement.marque),
-    (this.categorie = vetement.categorie);
+    (this.categorie = vetement.categorie),
+    (this.localisation = vetement.localisation),
+    (this.couleur = vetement.couleur);
 };
 
 Vetement.create = (vetement, result) => {
@@ -70,10 +73,11 @@ Vetement.findById = (id, result) => {
 
 Vetement.updateById = (id, vetement, result) => {
   sql.query(
-    "UPDATE Vetement SET idType=?, dateDebutDispo=?, dateFinDispo=?, taille=?, etat=?, genre=?, description=?, prix=?,\
-     conditionRetour=?, caution=?, disponible=?, photo=?, marque=?, categorie=? WHERE idVetement =? ",
+    "UPDATE Vetement SET idType=?, titre=?, dateDebutDispo=?, dateFinDispo=?, taille=?, etat=?, genre=?, description=?, prix=?,\
+     conditionRetour=?, caution=?, disponible=?, photo=?, marque=?, categorie=?, localisation=?, couleur=? WHERE idVetement =? ",
     [
       vetement.idType,
+      vetement.titre,
       vetement.dateDebutDispo,
       vetement.dateFinDispo,
       vetement.taille,
@@ -87,6 +91,8 @@ Vetement.updateById = (id, vetement, result) => {
       vetement.photo,
       vetement.marque,
       vetement.categorie,
+      vetement.localisation,
+      vetement.couleur,
       id
     ],
     (err, res) => {

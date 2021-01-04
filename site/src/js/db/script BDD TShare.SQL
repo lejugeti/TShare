@@ -39,6 +39,7 @@ CREATE TABLE Vetement
 	idVetement INT NOT NULL AUTO_INCREMENT,
 	idProprietaire INT NOT NULL,
 	idType INT NOT NULL,
+	titre VARCHAR(100) NOT NULL,
 	dateDebutDispo DATETIME NOT NULL DEFAULT CURDATE(),
 	dateFinDispo DATETIME,
 	taille VARCHAR(100) NOT NULL,
@@ -51,6 +52,9 @@ CREATE TABLE Vetement
 	disponible BOOLEAN NOT NULL DEFAULT true,
 	photo VARCHAR(100),
 	marque VARCHAR(100),
+	categorie VARCHAR(100) NOT NULL,
+	localisation VARCHAR(100) NOT NULL,
+	couleur VARCHAR(100) NOT NULL,
 	PRIMARY KEY (idVetement),
 	FOREIGN KEY (idProprietaire) REFERENCES Utilisateur(idUtilisateur),
 	FOREIGN KEY (idType) REFERENCES Type(idType)
