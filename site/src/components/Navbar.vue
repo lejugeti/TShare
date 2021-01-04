@@ -1,9 +1,10 @@
 <template>
   <b-navbar toggleable="lg" type="" variant="faded">
     <b-navbar-brand to="/">
-      <img id="logo" src="./../assets/logo.png"/>
+      <img id="logo" src="./../assets/logo.png" @click="navToDefaultPage"/>
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto text">
+      <b-nav-item to="/navbar" class=" mr-4" @click="navToAjoutPage">Ajouter un vêtement</b-nav-item>
       <b-nav-item to="/navbar" class=" mr-4">Créer mon compte</b-nav-item>
       <b-nav-item to="/navbar" class=" mr-4">Se connecter</b-nav-item>
     </b-navbar-nav>
@@ -12,7 +13,15 @@
 
 <script>
 export default {
-  name: "navbar"
+  name: "navbar",
+  methods: {
+    navToDefaultPage(){
+      this.$router.push("/rechercheVetement")
+    },
+    navToAjoutPage(){
+      this.$router.push("/ajoutVetement")
+    }
+  }
 };
 </script>
 
