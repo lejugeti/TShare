@@ -22,7 +22,7 @@
     "mysql": "^2.18.1",
     "path": "^0.12.7",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.4.8"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

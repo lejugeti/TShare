@@ -1,7 +1,7 @@
 <template>
   <b-navbar toggleable="lg" type="" variant="faded">
     <b-navbar-brand to="/">
-      <img id="logo" src="./../assets/logo.png"/>
+      <img id="logo" src="./../assets/logo.png" @click="navToDefaultPage"/>
     </b-navbar-brand>
     <b-navbar-nav class="ml-auto text">
       <b-nav-item to="/navbar" class=" mr-4">Créer mon compte</b-nav-item>
@@ -12,7 +12,12 @@
 
 <script>
 export default {
-  name: "navbar"
+  name: "navbar",
+  methods: {
+    navToDefaultPage(){
+      this.$router.push("/rechercheVetement")
+    }
+  }
 };
 </script>
 
