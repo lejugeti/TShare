@@ -63,7 +63,7 @@ app.use(function(err, req, res, next){
     }
 
     if(err.code==="LIMIT_FILE_SIZE"){
-        res.status(422).json({error: `Too large. Max size is ${200000/1000}Kb`})
+        res.status(422).json({error: `Too large. Max size is ${500000/1000}Kb`})
         return;
     }
 })
