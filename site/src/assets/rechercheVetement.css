@@ -1,0 +1,23 @@
+#body {
+  color: black;
+  font-family: "Roboto", sans-serif;
+  font-size: larger;
+  margin-top: 2%;
+}
+
+#categorie button {
+  margin-left: 3%;
+  margin-right: 3%;
+  border-radius: 30px;
+  border-color: #b8d6aa;
+  width: 150px;
+}
+
+#categorie button.not-collapsed {
+  background-color: #b8d6aa;
+}
+
+#categorie .collapse {
+  background-color: #b8d6aa;
+  margin-top: 1%;
+}
