@@ -15,6 +15,7 @@ const Vetement = function (vetement) {
     (this.prix = vetement.prix),
     (this.conditionRetour = vetement.conditionRetour),
     (this.caution = vetement.caution),
+    (this.couleur = vetement.couleur),
     (this.disponible = vetement.disponible),
     (this.photo = vetement.photo),
     (this.marque = vetement.marque),
@@ -48,6 +49,54 @@ Vetement.getAll = result => {
     result(null, res);
     return;
   });
+};
+
+Vetement.getMarques = result => {
+  sql.query("SELECT DISTINCT(marque) FROM Vetement WHERE marque IS NOT NULL", (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("marques:", res);
+    result(null, res);
+    return;
+  });
+};
+
+Vetement.getTailles = result => {
+  sql.query(
+    "SELECT DISTINCT(taille) FROM Vetement WHERE taille IS NOT NULL",
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("tailles:", res);
+      result(null, res);
+      return;
+    }
+  );
+};
+
+Vetement.getCouleurs = result => {
+  sql.query(
+    "SELECT DISTINCT(couleur) FROM Vetement WHERE couleur IS NOT NULL",
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("couleurs:", res);
+      result(null, res);
+      return;
+    }
+  );
 };
 
 Vetement.findById = (id, result) => {
