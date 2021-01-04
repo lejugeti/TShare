@@ -1,0 +1,55 @@
+.bandeau {
+  background-color : #B8D6AA;
+  height: 56px;
+  margin-bottom: 30px;
+}
+
+.bandeau_text {
+  font-size : 36px;
+}
+
+.main_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.type_vente {
+
+
+}
+
+#btnSelected {
+  width : 209px;
+  height: 48px;
+  font-size: 18px;
+  border-radius: 40px;
+  margin-right : 200px;
+  border-color: #B8D6AA;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column_filter {
+  flex-display: column;
+  width: 400px;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+
+.tab_historique {
+  margin-top : 50px;
+}
+
+.search {
+  width : 200px;
+  margin-bottom: 50px;
+}
+
+#btn_clear_filter {
+margin-top : 50px;
+  margin-right: 200px;
+}
