@@ -1,6 +1,6 @@
 <template>
   <div class="mcontainer" >
-      <svg height="40px" width="120px" class="border-effect" viewBox="0 0 180 60"  preserveAspectRatio="none">
+      <svg height="40px" width="160px" class="border-effect" viewBox="0 0 180 60"  preserveAspectRatio="none">
         <polyline points="90,59 1,59 1,1 90,1" stroke="#666" stroke-width="2" fill="none" stroke-dasharray="35 480"/>
         <polyline points="90,59 179,59 179,1 90,1" stroke="#666" stroke-width="2" fill="none" stroke-dasharray="35 480"/>
       </svg>
@@ -23,7 +23,7 @@ export default {
   cursor: pointer;
   position: relative;
   height: 40px;
-  width: 120px;
+  width: 160px;
   margin: 0 20px 0 20px;
   padding: 0;
   display:flex;

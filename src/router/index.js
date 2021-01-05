@@ -4,28 +4,24 @@ import Home from '../views/Home.vue'
 import Profil from '../views/Profil.vue'
 import Connexion from '../views/Connexion.vue'
 import CreateProfil from '../views/CreateProfil.vue'
+import AffVetement from '../views/AffichageVetement'
+import RechercheVetement from '../views/RechercheVetement'
+import AjoutVetement from '../views/AjouterVetement'
+import HistoriqueView from '../views/HistoriqueView'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'Recherche vêtement',
+    component: RechercheVetement
   },
   {
     path: '/profil',
     name: 'Profil',
     component: Profil
   },
-  // {
-  //  path: '/about',
-  //  name: 'About',
-  //  route level code-splitting
-  //  this generates a separate chunk (about.[hash].js) for this route
-  //  which is lazy-loaded when the route is visited.
-  //  component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // },
   {
     path: '/login',
     name: 'Connexion',
@@ -33,8 +29,35 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'Nouveaux profil',
+    name: 'Nouveau profil',
     component: CreateProfil
+  },
+  {
+    path: '/affVetement/:id',
+    name: 'Affichage d\'un habit',
+    component: AffVetement
+  },
+  {
+    path: '/ajoutVetement/',
+    name: 'Ajout d\'un habit',
+    component: AjoutVetement
+  },
+  {
+    path: '/rechercheVetement/',
+    name: 'Recherche d\'un habit',
+    component: RechercheVetement
+  },
+  {
+    path: '/historique/',
+    component: HistoriqueView
+  },
+  {
+    path: '/blanck',
+    component: Home
+  },
+  {
+    path: '*',
+    redirect: '/'
   }
 ]
 
