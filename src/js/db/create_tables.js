@@ -90,6 +90,7 @@ con.connect(function(err){
         disponible BOOLEAN NOT NULL DEFAULT true,\
         photo VARCHAR(100),\
         marque VARCHAR(100),\
+        categorie VARCHAR(100) NOT NULL,\
         FOREIGN KEY (idProprietaire) REFERENCES Utilisateur(idUtilisateur),\
         FOREIGN KEY (idType) REFERENCES Type(idType)\
     )";

@@ -294,7 +294,7 @@ export default {
         photo: null
       },
       file: null,
-      types: [{ text: '--- Choisissez une catégorie ---', value: null }],
+      types: [{ text: '--- Choisissez une catégorie ---', value: null }, { text: 'un type', value: '1' }],
       etat: [{ text: '--- Choisissez un état ---', value: null }, { text: 'Neuf', value: 'Neuf' }, { text: 'Très bon état', value: 'Très bon état' }, { text: 'Bon état', value: 'Bon état' }, { text: 'Moyen', value: 'Moyen' }, { text: 'Usé', value: 'Usé' }, { text: 'Mauvais état', value: 'Mauvais état' }],
       genre: [{ text: '--- Choisissez un type ---', value: null }, { text: 'Masculin', value: 'Masculin' }, { text: 'Féminin', value: 'Féminin' }, { text: 'Unisexe', value: 'Unisexe' }],
       conditionsEnvoi: [{ text: '--- Condition d\'envoi ---', value: null }, { text: 'Tout beau tout propre', value: 'Tout beau tout propre' }, { text: 'Lavage obligé mamène', value: 'Lavage obligé mamène' }, { text: 'crado dégueu', value: 'crado dégueu' }],
@@ -319,9 +319,13 @@ export default {
       // upload de l'image
       const formData = new FormData()
       formData.append('file', this.file)
+      console.log(formData)
       axios.post('http://localhost:3000/upload', formData)
         .then(console.log('Upload Success'))
         .catch(err => console.log(err))
+    },
+    changeDateSpan: function () {
+      console('changedateSpan')
     }
   },
   mounted () {
