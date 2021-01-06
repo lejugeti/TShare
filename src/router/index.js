@@ -38,17 +38,17 @@ const routes = [
     component: AffVetement
   },
   {
-    path: '/ajoutVetement/',
+    path: '/ajoutVetement',
     name: 'Ajout d\'un habit',
     component: AjoutVetement
   },
   {
-    path: '/rechercheVetement/',
+    path: '/rechercheVetement',
     name: 'Recherche d\'un habit',
     component: RechercheVetement
   },
   {
-    path: '/historique/',
+    path: '/historique',
     component: HistoriqueView
   },
   {
