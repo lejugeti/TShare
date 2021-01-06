@@ -57,7 +57,7 @@ export default {
   name: 'affichageVetement',
   data () {
     return {
-      images: ['teeShirt.png', 'logo.png'],
+      images: ['teeShirt.png', 'logo_tshare.png'],
       titre: 'Titre du produit',
       localisation: '33000 Bordeaux',
       marque: 'Petit Bateau',
