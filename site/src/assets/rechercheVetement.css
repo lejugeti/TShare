@@ -25,9 +25,13 @@
   margin-top: 1%;
 }
 
-#listeCategorie {
+.listeCategorie {
   margin-left: 46%;
   text-align: left;
+}
+
+.listeCategorie a {
+  color: black;
 }
 
 #sidebar {
