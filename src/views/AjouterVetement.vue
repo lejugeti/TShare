@@ -319,7 +319,6 @@ export default {
       // upload de l'image
       const formData = new FormData()
       formData.append('file', this.file)
-      console.log(formData)
       axios.post('http://localhost:3000/upload', formData)
         .then(console.log('Upload Success'))
         .catch(err => console.log(err))

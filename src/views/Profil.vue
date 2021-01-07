@@ -14,8 +14,9 @@
           <div class="cont-border detail-section">
             <div class="picture-section">
               <div class="fausse-image">
+                <img fluid-grow class="photo-profil" :src="require('../assets/profils/' + path)"/>
               </div>
-              <buttonPerso variant="outline" content="Changer photo de profil" />
+              <buttonPerso variant="outline" content="Changer photo de profil" @click.native="$bvModal.show('modal-import-photo')"/>
               <p><b-icon icon="star-fill"></b-icon> {{ noteMoy }} / 5 ({{ nbComment }} avis)</p>
             </div>
           </div>
@@ -92,6 +93,25 @@
           </div>
         </div>
       </div>
+
+    <b-modal id="modal-import-photo" centered title="Import photo de profil" @ok="submitPhoto">
+      <b-form class="d-block text-center">
+        <b-form-file
+          id="fileUpload"
+          type="file"
+          ref="file"
+          v-model= "photoProfilImport">
+        </b-form-file>
+      </b-form>
+      <template #modal-footer="{ ok, cancel }">
+        <b-button size="sm" @click="cancel()">
+          Annuler
+        </b-button>
+        <b-button size="sm" variant="success" @click="ok()">
+          Valider
+        </b-button>
+      </template>
+    </b-modal>
     </div>
 </template>
 
@@ -100,6 +120,7 @@ import greenline from '@/components/GreenLine.vue'
 import buttonSection from '@/components/ProfilSectionButton.vue'
 import persoInfoLine from '@/components/PersoInfoLine.vue'
 import buttonPerso from '@/components/ButtonPerso.vue'
+const axios = require('axios').default
 
 export default {
   name: 'profil',
@@ -128,7 +149,9 @@ export default {
       isDescEdit: false,
       noteReçu: '',
       noteEnvoye: '',
-      noteMoy: 3.5
+      noteMoy: 3.5,
+      photoProfilImport: null,
+      path: 'default-profile.png'
     }
   },
   mounted: function () {
@@ -174,6 +197,12 @@ export default {
         this.getNoteMoyenne(json)
       })
       .catch(err => console.log(err))
+
+    if (this.imageExists(this.$store.state.idUtilisateur + '.png')) {
+      this.path = this.$store.state.idUtilisateur + '.png'
+    } else if (this.imageExists(this.$store.state.idUtilisateur + '.jpeg')) {
+      this.path = this.$store.state.idUtilisateur + '.jpeg'
+    }
   },
   methods: {
     onClickEnregistrer () {
@@ -219,6 +248,30 @@ export default {
       } else {
         this.noteMoy = '--'
       }
+    },
+    submitPhoto (bvModalEvt) {
+      bvModalEvt.preventDefault()
+      if (this.photoProfilImport !== null) {
+        const formData = new FormData()
+        formData.append('file', this.photoProfilImport)
+        formData.append('type', 'profil')
+        axios.post('http://localhost:3000/upload?type=profil&id=' + this.$store.state.idUtilisateur, formData)
+          .then((json) => {
+            this.path = json.data.filename
+            this.$bvModal.hide('modal-import-photo')
+          })
+          .catch(err => console.log(err))
+      } else {
+
+      }
+    },
+    imageExists (imageUrl) {
+      try {
+        var img = require('../assets/profils/' + imageUrl)
+      } catch {
+
+      }
+      return img !== undefined
     }
   },
   computed: {
@@ -303,9 +356,14 @@ export default {
   margin-bottom: 12px;
 }
 .fausse-image{
-  height: 230px;
   width: 230px;
-  background-color: silver;
+  margin: 50px 0 28px 0;
+}
+.photo-profil{
+  margin: auto;
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 20px;
 }
 .margin-right{
   margin-right: 6px;
