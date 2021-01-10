@@ -59,6 +59,23 @@ exports.findOne = (req, res) => {
   });
 };
 
+// Find Notes of a specific user
+exports.findUser = (req, res) => {
+  Note.findByUserId(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Note with id ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving Note with id " + req.params.userId
+        });
+      }
+    } else res.send(data);
+  });
+};
+
 exports.findSendedBy = (req, res) => {
   Note.findSended(req.params.idUtilisateur, (err,data) => {
     if(err) {

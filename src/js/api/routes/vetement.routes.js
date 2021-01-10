@@ -5,6 +5,12 @@ module.exports = app => {
 
     app.get("/vetements", vetement.getAll);
 
+    app.get("/vetement/marques", vetement.getMarques);
+
+    app.get("/vetement/tailles", vetement.getTailles);
+
+    app.get("/vetement/couleurs", vetement.getCouleurs);
+
     app.get("/vetement/:idVetement", vetement.getById);
 
     app.put("/vetement/:idVetement", vetement.update);

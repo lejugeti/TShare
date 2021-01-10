@@ -13,6 +13,7 @@ exports.create = (req, res) => {
     idVetement: req.body.idVetement,
     idProprietaire: req.body.idProprietaire,
     idType: req.body.idType,
+    titre: req.body.titre,
     dateDebutDispo: req.body.dateDebutDispo,
     dateFinDispo: req.body.dateFinDispo,
     taille: req.body.taille,
@@ -22,10 +23,13 @@ exports.create = (req, res) => {
     prix: req.body.prix,
     conditionRetour: req.body.conditionRetour,
     caution: req.body.caution,
+    couleur: req.body.couleur,
     disponible: req.body.disponible,
     photo: req.body.photo,
     marque: req.body.marque,
-    categorie: req.body.categorie
+    categorie: req.body.categorie,
+    localisation: req.body.localisation,
+    couleur: req.body.couleur
   });
 
   // Save vetement in the database
@@ -44,6 +48,36 @@ exports.getAll = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "error lors de la récupération des vetements"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getMarques = (req, res) => {
+  Vetement.getMarques((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des marques"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getTailles = (req, res) => {
+  Vetement.getTailles((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des tailles"
+      });
+    else res.send(data);
+  });
+};
+
+exports.getCouleurs = (req, res) => {
+  Vetement.getCouleurs((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "error lors de la récupération des couleurs"
       });
     else res.send(data);
   });

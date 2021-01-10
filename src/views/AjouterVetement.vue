@@ -291,7 +291,9 @@ export default {
         prix: 10,
         disponible: 1,
         categorie: null,
-        photo: null
+        photo: null,
+        couleur: 'default color',
+        localisation: 'default localisation'
       },
       file: null,
       types: [{ text: '--- Choisissez une catégorie ---', value: null }, { text: 'un type', value: '1' }],
@@ -306,7 +308,7 @@ export default {
   methods: {
     onSubmit: function (evt) {
       evt.preventDefault()
-      this.form.photo = './src/assets/vetements/' + this.file.name
+      this.form.photo = this.file.name
       console.log(JSON.stringify(this.form))
       var reqData = this.form
       axios.post('http://localhost:3000/vetement', reqData)

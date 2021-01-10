@@ -8,7 +8,9 @@ app.use(bodyParser.json());
 
 //cors config
 app.use(cors({
-  origin: "http://localhost:8080"
+  origin: "http://localhost:8080",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  optionsSuccessStatus: 200
 }));
 
 // parse requests of content-type: application/x-www-form-urlencoded

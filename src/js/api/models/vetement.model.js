@@ -2,10 +2,11 @@ const sql = require("../../db.js");
 
 // constructeur
 
-const Vetement = function (vetement) {
+const Vetement = function(vetement) {
   (this.idVetement = vetement.idVetement),
     (this.idProprietaire = vetement.idProprietaire),
     (this.idType = vetement.idType),
+    (this.titre = vetement.titre),
     (this.dateDebutDispo = vetement.dateDebutDispo),
     (this.dateFinDispo = vetement.dateFinDispo),
     (this.taille = vetement.taille),
@@ -15,10 +16,13 @@ const Vetement = function (vetement) {
     (this.prix = vetement.prix),
     (this.conditionRetour = vetement.conditionRetour),
     (this.caution = vetement.caution),
+    (this.couleur = vetement.couleur),
     (this.disponible = vetement.disponible),
     (this.photo = vetement.photo),
     (this.marque = vetement.marque),
-    (this.categorie = vetement.categorie);
+    (this.categorie = vetement.categorie),
+    (this.localisation = vetement.localisation),
+    (this.couleur = vetement.couleur);
 };
 
 Vetement.create = (vetement, result) => {
@@ -50,6 +54,54 @@ Vetement.getAll = result => {
   });
 };
 
+Vetement.getMarques = result => {
+  sql.query("SELECT DISTINCT(marque) FROM Vetement WHERE marque IS NOT NULL", (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("marques:", res);
+    result(null, res);
+    return;
+  });
+};
+
+Vetement.getTailles = result => {
+  sql.query(
+    "SELECT DISTINCT(taille) FROM Vetement WHERE taille IS NOT NULL",
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("tailles:", res);
+      result(null, res);
+      return;
+    }
+  );
+};
+
+Vetement.getCouleurs = result => {
+  sql.query(
+    "SELECT DISTINCT(couleur) FROM Vetement WHERE couleur IS NOT NULL",
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(err, null);
+        return;
+      }
+
+      console.log("couleurs:", res);
+      result(null, res);
+      return;
+    }
+  );
+};
+
 Vetement.findById = (id, result) => {
   sql.query("SELECT * FROM Vetement WHERE idVetement = ?", id, (err, res) => {
     if (err) {
@@ -70,10 +122,11 @@ Vetement.findById = (id, result) => {
 
 Vetement.updateById = (id, vetement, result) => {
   sql.query(
-    "UPDATE Vetement SET idType=?, dateDebutDispo=?, dateFinDispo=?, taille=?, etat=?, genre=?, description=?, prix=?,\
-     conditionRetour=?, caution=?, disponible=?, photo=?, marque=?, categorie=? WHERE idVetement =? ",
+    "UPDATE Vetement SET idType=?, titre=?, dateDebutDispo=?, dateFinDispo=?, taille=?, etat=?, genre=?, description=?, prix=?,\
+     conditionRetour=?, caution=?, disponible=?, photo=?, marque=?, categorie=?, localisation=?, couleur=? WHERE idVetement =? ",
     [
       vetement.idType,
+      vetement.titre,
       vetement.dateDebutDispo,
       vetement.dateFinDispo,
       vetement.taille,
@@ -87,6 +140,8 @@ Vetement.updateById = (id, vetement, result) => {
       vetement.photo,
       vetement.marque,
       vetement.categorie,
+      vetement.localisation,
+      vetement.couleur,
       id
     ],
     (err, res) => {

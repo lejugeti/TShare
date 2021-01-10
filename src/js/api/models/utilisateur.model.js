@@ -1,4 +1,3 @@
-const { BBreadcrumbLink } = require('bootstrap-vue');
 const sql = require('../../db.js');
 
 // constructeur
@@ -28,7 +27,7 @@ Utilisateur.create = (newUtilisateur, result) => {
 };
 
 Utilisateur.getAll = result => {
-    sql.query("SELECT nom, prenom, genre, dateDeNaissance, adresse, email, telephone, descritption FROM Utilisateur", (err, res) => {
+    sql.query("SELECT nom, prenom, genre, dateDeNaissance, adresse, email, telephone, description FROM Utilisateur", (err, res) => {
         if(err){
             console.log("error : ", err);
             result(err, null);

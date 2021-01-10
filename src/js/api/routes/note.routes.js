@@ -11,6 +11,8 @@ module.exports = app => {
 
   app.get("/note/sended/:idUtilisateur", note.findSendedBy);
 
+  app.get("/noteUser/:userId", note.findUser);
+
   app.put("/note/:noteId", note.update);
 
   app.delete("/note/:noteId", note.delete);

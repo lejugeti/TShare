@@ -54,6 +54,20 @@ Note.findById = (id, result) => {
   });
 };
 
+Note.findByUserId = (id, result) => {
+  sql.query("SELECT * FROM Notes WHERE idRecepteur = ?", id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("Notes: ", res);
+    result(null, res);
+    return;
+  });
+};
+
 Note.findReceived = (id,result) => {
   sql.query("SELECT (SELECT CONCAT(prenom,' ',nom) FROM utilisateur WHERE idUtilisateur = idEmetteur) as 'Emetteur', note as 'Note', commentaire as 'Commentaire', dateNote as 'Date' FROM notes WHERE idRecepteur = ?", id, (err,res) => {
     if(err){

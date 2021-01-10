@@ -144,5 +144,5 @@ export default {
 </script>
 
 <style scoped>
-  @import "./../style/historique.css"
+  @import "./../style/historique.css";
 </style>
